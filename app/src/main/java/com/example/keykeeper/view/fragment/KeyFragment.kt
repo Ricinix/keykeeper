@@ -20,6 +20,7 @@ import com.example.keykeeper.view.adapter.RecyclerAdapter
 import com.example.keykeeper.view.widget.KeyEditDialog
 import com.example.keykeeper.viewModel.FragViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_layout.*
 import javax.inject.Inject
 
@@ -37,11 +38,7 @@ class KeyFragment(val title: String):Fragment() {
             override fun onConfirm(name: String, account: String, password: String, kind: String) {
                 fragViewModel.addNewData(name, account, password, kind, title)
             }
-
-            override fun onCancel() {
-
-            }
-
+            override fun onCancel() {}
         })
         editDialog.show()
     }
@@ -59,7 +56,7 @@ class KeyFragment(val title: String):Fragment() {
                     .setTitle("删除")
                     .setMessage("确定要删除${keySimplify.name}吗？")
                     .setPositiveButton("确定") { _, _ ->
-                        fragViewModel.deleteKey(keySimplify.id, title)
+                        fragViewModel.deleteKey(keySimplify, title)
                     }.setNegativeButton("取消") { _, _ ->}.show()
             }
         })
@@ -71,6 +68,17 @@ class KeyFragment(val title: String):Fragment() {
         fragViewModel.wrongMsg.observe(this, Observer {wrongMsg ->
             Toast.makeText(this@KeyFragment.context, wrongMsg, Toast.LENGTH_LONG).show()
             Log.e("WrongMsg", wrongMsg)
+        })
+        fragViewModel.numChanged.observe(this, Observer {num ->
+            when {
+                num < 0 -> Snackbar.make(activityAbove.view_pager, "删除成功", Snackbar.LENGTH_LONG)
+                    .setAction("撤销"){
+                        fragViewModel.undoDelete()
+                    }.show()
+                num == 1L -> Snackbar.make(activityAbove.view_pager, "添加成功", Snackbar.LENGTH_SHORT).show()
+                num == 2L -> Snackbar.make(activityAbove.view_pager, "撤销成功", Snackbar.LENGTH_SHORT).show()
+                else -> Snackbar.make(activityAbove.view_pager, "修改成功", Snackbar.LENGTH_SHORT).show()
+            }
         })
     }
 

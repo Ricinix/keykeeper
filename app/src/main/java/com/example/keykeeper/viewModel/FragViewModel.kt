@@ -11,9 +11,13 @@ import io.reactivex.disposables.Disposable
 
 class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
 
+    private var lastKey:KeyData? = null
+
     val keyList = MutableLiveData<List<KeySimplify>>()
 
     val wrongMsg = MutableLiveData<String>()
+
+    val numChanged = MutableLiveData<Long>()
 
     fun getKeys(category: String){
         fragRepo.getKeys(category)
@@ -39,6 +43,7 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<Long>{
                 override fun onSuccess(t: Long) {
+                    numChanged.value = 1L
                     getKeys(category)
                 }
 
@@ -50,11 +55,17 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             })
     }
 
-    fun deleteKey(id: Int, category: String){
-        fragRepo.deleteKeys(id)
+    fun deleteKey(keySimplify: KeySimplify, category: String){
+        lastKey = KeyData(name = keySimplify.name,
+            account = keySimplify.account,
+            password = keySimplify.password,
+            kind = keySimplify.kind,
+            category = category)
+        fragRepo.deleteKeys(keySimplify.id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<Int>{
                 override fun onSuccess(t: Int) {
+                    numChanged.value = -t.toLong()
                     getKeys(category)
                 }
 
@@ -64,5 +75,25 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
                     wrongMsg.value = e.message
                 }
             })
+    }
+
+    fun undoDelete(){
+        lastKey?.let {
+            fragRepo.storeKeys(it)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object :SingleObserver<Long>{
+                    override fun onSuccess(t: Long) {
+                        numChanged.value = 2L
+                        getKeys(it.category)
+                    }
+
+                    override fun onSubscribe(d: Disposable) {}
+
+                    override fun onError(e: Throwable) {
+                        wrongMsg.value = e.message
+                    }
+                })
+        }
+
     }
 }
