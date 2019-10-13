@@ -107,7 +107,7 @@ class KeyEditDialog(context: Context, private val listener: Listener): Dialog(co
                     pwd_input_mix.text = SpannableStringBuilder(newText)
                 }else{
                     val oldTextLength = pwd_input_num.text.toString().length
-                    val newText = Random.getRandomPlainText(oldTextLength)
+                    val newText = Random.getRandomNumberText(oldTextLength)
                     pwd_input_num.text = SpannableStringBuilder(newText)
                 }
 

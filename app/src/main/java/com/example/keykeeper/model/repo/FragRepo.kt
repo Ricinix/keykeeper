@@ -8,8 +8,18 @@ import io.reactivex.schedulers.Schedulers
 
 class FragRepo(private val keyDataBase: KeyDataBase) {
 
-    fun getKeys(kind: String): Single<List<KeySimplify>>{
-        return keyDataBase.keyDao().getByKind(kind)
+    fun getKeys(category: String): Single<List<KeySimplify>>{
+        return keyDataBase.keyDao().getByKind(category)
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun storeKeys(keyData: KeyData): Single<Long>{
+        return keyDataBase.keyDao().insertKeyData(keyData)
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun deleteKeys(id: Int): Single<Int>{
+        return keyDataBase.keyDao().deleteById(id)
             .subscribeOn(Schedulers.io())
     }
 }
