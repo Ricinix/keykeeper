@@ -1,6 +1,8 @@
 package com.example.keykeeper.view.fragment
 
 import android.app.Activity
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +25,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_layout.*
 import javax.inject.Inject
+import android.content.ClipData
+
+
 
 class KeyFragment(val title: String):Fragment() {
 
@@ -33,22 +38,13 @@ class KeyFragment(val title: String):Fragment() {
     private val recyclerAdapter = RecyclerAdapter()
     lateinit var activityAbove: Activity
 
-    fun addNewKey(){
-        val editDialog = KeyEditDialog(this.context?:activityAbove, object :KeyEditDialog.Listener{
-            override fun onConfirm(name: String, account: String, password: String, kind: String) {
-                fragViewModel.addNewData(name, account, password, kind, title)
-            }
-            override fun onCancel() {}
-        })
-        editDialog.show()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         keys_recycler.layoutManager = LinearLayoutManager(this.context)
         recyclerAdapter.setListener(object :ItemBtnListener{
             override fun onEdit(keySimplify: KeySimplify) {
-
+                editKey(keySimplify)
             }
 
             override fun onDelete(keySimplify: KeySimplify) {
@@ -61,6 +57,11 @@ class KeyFragment(val title: String):Fragment() {
             }
         })
         keys_recycler.adapter = recyclerAdapter
+        recyclerAdapter.copyText.observe(this, Observer {
+            copyToBoard(it)
+            Snackbar.make(activityAbove.view_pager, "复制成功", Snackbar.LENGTH_SHORT).show()
+        })
+
         fragViewModel.keyList.observe(this, Observer {
             recyclerAdapter.keyList = it
             recyclerAdapter.notifyDataSetChanged()
@@ -80,6 +81,31 @@ class KeyFragment(val title: String):Fragment() {
                 else -> Snackbar.make(activityAbove.view_pager, "修改成功", Snackbar.LENGTH_SHORT).show()
             }
         })
+    }
+
+    fun addNewKey(){
+        val editDialog = KeyEditDialog(this.context?:activityAbove, object :KeyEditDialog.Listener{
+            override fun onConfirm(name: String, account: String, password: String, kind: String) {
+                fragViewModel.addNewData(name, account, password, kind, title)
+            }
+            override fun onCancel() {}
+        })
+        editDialog.show()
+    }
+
+    fun editKey(keySimplify: KeySimplify){
+        val editDialog = KeyEditDialog(this.context?:activityAbove, object :KeyEditDialog.Listener{
+            override fun onConfirm(name: String, account: String, password: String, kind: String) {
+                keySimplify.name = name
+                keySimplify.account = account
+                keySimplify.password = password
+                keySimplify.kind = kind
+                fragViewModel.updateKey(keySimplify, title)
+            }
+            override fun onCancel() {}
+        })
+        editDialog.show()
+        editDialog.setMessage(keySimplify.name, keySimplify.account, keySimplify.password, keySimplify.kind)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,4 +135,11 @@ class KeyFragment(val title: String):Fragment() {
     private fun inject(){
         DaggerFragComponent.builder().fragModule(FragModule(this)).build().inject(this)
     }
+
+    private fun copyToBoard(s:String){
+        val cm = this.context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val mClipData = ClipData.newPlainText("Label", s)
+        cm.primaryClip = mClipData
+    }
+
 }

@@ -121,6 +121,18 @@ class KeyEditDialog(context: Context, private val listener: Listener): Dialog(co
         }
     }
 
+    fun setMessage(name: String, account: String, password: String, kind: String){
+        name_input.text = SpannableStringBuilder(name)
+        account_input.text = SpannableStringBuilder(account)
+        if (kind == MIX){
+            radio_btn_mix_pwd.isChecked = true
+            pwd_input_mix.text = SpannableStringBuilder(password)
+        }else{
+            radio_btn_num_pwd.isChecked = true
+            pwd_input_num.text = SpannableStringBuilder(password)
+        }
+    }
+
     interface Listener{
         fun onConfirm(name:String, account:String, password:String, kind:String)
         fun onCancel()

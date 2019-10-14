@@ -16,8 +16,12 @@ data class KeyData (
 
 data class KeySimplify(
     val id: Int,
-    val name: String,
-    val account: String,
-    val password: String,
-    val kind: String
-)
+    var name: String,
+    var account: String,
+    var password: String,
+    var kind: String
+){
+    fun toKeyData(category: String): KeyData{
+        return KeyData(id, name, account, password, kind, category)
+    }
+}

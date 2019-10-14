@@ -151,6 +151,7 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/cancel_btn"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorEdit"
             android:textSize="18sp" />
 
@@ -162,6 +163,7 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/confirm_btn"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorEdit"
             android:textSize="18sp" />
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.keykeeper.model.room.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.keykeeper.model.room.data.KeyData
 import com.example.keykeeper.model.room.data.KeySimplify
 import io.reactivex.Single
@@ -18,4 +19,7 @@ interface KeyDao {
 
     @Query("DELETE FROM key_table WHERE id=:id")
     fun deleteById(id: Int): Single<Int>
+
+    @Update
+    fun updateKeyData(keyData: KeyData): Single<Int>
 }

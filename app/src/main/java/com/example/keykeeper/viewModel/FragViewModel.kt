@@ -55,6 +55,21 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             })
     }
 
+    fun updateKey(keySimplify: KeySimplify, category: String){
+        fragRepo.updateKeys(keySimplify.toKeyData(category))
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object :SingleObserver<Int>{
+                override fun onSuccess(t: Int) {
+                    numChanged.value = 0
+                    getKeys(category)
+                }
+                override fun onSubscribe(d: Disposable) {}
+                override fun onError(e: Throwable) {
+                    wrongMsg.value = e.message
+                }
+            })
+    }
+
     fun deleteKey(keySimplify: KeySimplify, category: String){
         lastKey = KeyData(name = keySimplify.name,
             account = keySimplify.account,

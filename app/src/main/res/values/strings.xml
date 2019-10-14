@@ -15,4 +15,6 @@
     <string name="radio_btn_mix_pwd">混合密码</string>
     <string name="radio_btn_num_pwd">数字密码</string>
     <string name="switch_rand_pwd">随机密码</string>
+    <string name="hide_pwd_toggle_tips">show/hide the password</string>
+    <string name="copy_toggle_tips">copy the text</string>
 </resources>

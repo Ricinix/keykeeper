@@ -22,4 +22,9 @@ class FragRepo(private val keyDataBase: KeyDataBase) {
         return keyDataBase.keyDao().deleteById(id)
             .subscribeOn(Schedulers.io())
     }
+
+    fun updateKeys(keysData: KeyData): Single<Int>{
+        return keyDataBase.keyDao().updateKeyData(keysData)
+            .subscribeOn(Schedulers.io())
+    }
 }
