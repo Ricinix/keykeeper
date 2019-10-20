@@ -1,17 +1,22 @@
 package com.example.keykeeper.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.keykeeper.model.repo.FragRepo
 import com.example.keykeeper.model.room.data.KeyData
 import com.example.keykeeper.model.room.data.KeySimplify
+import com.github.promeg.pinyinhelper.Pinyin
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import java.util.*
 
 class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
 
     private var lastKey:KeyData? = null
+
+    val firstLetterMap = mutableMapOf<String, Int>()
 
     val keyList = MutableLiveData<List<KeySimplify>>()
 
@@ -21,10 +26,32 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
 
     fun getKeys(category: String){
         fragRepo.getKeys(category)
+            .map {
+                it.sortedBy { key ->
+                    var c =Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
+                    if (c<"A" || c >"Z"){
+                        c = "a"
+                    }
+                    c
+                }
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<List<KeySimplify>>{
                 override fun onSuccess(t: List<KeySimplify>) {
+                    Log.v("SortTest", t.toString())
                     keyList.value = t
+                    var oldFirst = ""
+                    for (i in t.indices){
+                        val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
+                        if (oldFirst != newFirst){
+                            if (newFirst>="A" && newFirst<="Z")
+                                firstLetterMap[newFirst] = i
+                            else
+                                firstLetterMap["#"] = i
+                            oldFirst = newFirst
+                        }
+                    }
+                    Log.v("MapTest", firstLetterMap.toString())
                 }
 
                 override fun onSubscribe(d: Disposable) {}

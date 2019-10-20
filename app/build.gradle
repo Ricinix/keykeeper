@@ -36,7 +36,7 @@ dependencies {
 
     // bar栏
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
-
+    //android material design
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.android.support:design:28.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -52,16 +52,18 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-
     //rxjava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     //room
-    implementation "androidx.room:room-runtime:2.2.0-rc01"
-    kapt "androidx.room:room-compiler:2.2.0-rc01" // use kapt for Kotlin
-    implementation "androidx.room:room-rxjava2:2.2.0-rc01" // optional - RxJava support for Room
-    implementation "androidx.room:room-guava:2.2.0-rc01"
+    implementation "androidx.room:room-runtime:2.2.0"
+    kapt "androidx.room:room-compiler:2.2.0" // use kapt for Kotlin
+    implementation "androidx.room:room-rxjava2:2.2.0" // optional - RxJava support for Room
+    implementation "androidx.room:room-guava:2.2.0"
     // optional - Guava support for Room, including Optional and ListenableFuture
-    testImplementation "androidx.room:room-testing:2.2.0-rc01" // Test helpers
+    testImplementation "androidx.room:room-testing:2.2.0" // Test helpers
+    //pinyin
+    implementation 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
+    implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
 
 }

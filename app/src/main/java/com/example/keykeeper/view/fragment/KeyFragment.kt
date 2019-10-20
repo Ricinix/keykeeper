@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_layout.*
 import javax.inject.Inject
 import android.content.ClipData
-
+import com.example.keykeeper.view.widget.OnChooseLetterChangedListener
+import java.util.*
 
 
 class KeyFragment(val title: String):Fragment() {
@@ -40,6 +41,19 @@ class KeyFragment(val title: String):Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        side_bar.setListener(object :OnChooseLetterChangedListener{
+            override fun onChooseLetter(s: String) {
+                fragViewModel.firstLetterMap[s]?.run {
+//                    Log.v("MapTest", "scroll to $this")
+                    keys_recycler.scrollToPosition(this)
+                }
+
+            }
+
+            override fun onNoChooseLetter() {
+
+            }
+        })
 
         keys_recycler.layoutManager = LinearLayoutManager(this.context)
         recyclerAdapter.setListener(object :ItemBtnListener{
