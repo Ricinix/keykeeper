@@ -1,6 +1,7 @@
 package com.example.keykeeper.view.fragment
 
 import android.app.Activity
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,20 +17,24 @@ import com.example.keykeeper.R
 import com.example.keykeeper.di.component.DaggerFragComponent
 import com.example.keykeeper.di.module.FragModule
 import com.example.keykeeper.model.room.data.KeySimplify
+import com.example.keykeeper.view.MyApplication
 import com.example.keykeeper.view.adapter.ItemBtnListener
 import com.example.keykeeper.view.adapter.RecyclerAdapter
 import com.example.keykeeper.view.widget.KeyEditDialog
+import com.example.keykeeper.view.widget.OnChooseLetterChangedListener
 import com.example.keykeeper.viewModel.FragViewModel
+import com.example.keykeeper.viewModel.FragViewModel.Companion.KEY_ADD
+import com.example.keykeeper.viewModel.FragViewModel.Companion.KEY_DELETE
+import com.example.keykeeper.viewModel.FragViewModel.Companion.KEY_EDIT
+import com.example.keykeeper.viewModel.FragViewModel.Companion.KEY_UNDO
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_layout.*
 import javax.inject.Inject
-import android.content.ClipData
-import com.example.keykeeper.view.widget.OnChooseLetterChangedListener
-import java.util.*
 
 
-class KeyFragment(val title: String):Fragment() {
+class KeyFragment(val order: Int):Fragment() {
+    var title: String = ""
 
     @Inject
     lateinit var fragViewModel: FragViewModel
@@ -40,6 +44,7 @@ class KeyFragment(val title: String):Fragment() {
     lateinit var activityAbove: Activity
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        Log.v("LifeCycleTest", "${title}: onActivityCreated")
         super.onActivityCreated(savedInstanceState)
         side_bar.setListener(object :OnChooseLetterChangedListener{
             override fun onChooseLetter(s: String) {
@@ -47,12 +52,8 @@ class KeyFragment(val title: String):Fragment() {
 //                    Log.v("MapTest", "scroll to $this")
                     keys_recycler.scrollToPosition(this)
                 }
-
             }
-
-            override fun onNoChooseLetter() {
-
-            }
+            override fun onNoChooseLetter() {}
         })
 
         keys_recycler.layoutManager = LinearLayoutManager(this.context)
@@ -71,29 +72,35 @@ class KeyFragment(val title: String):Fragment() {
             }
         })
         keys_recycler.adapter = recyclerAdapter
+    }
+
+    private fun setObserver(){
         recyclerAdapter.copyText.observe(this, Observer {
             copyToBoard(it)
-            Snackbar.make(activityAbove.view_pager, "复制成功", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(activityAbove.fab, "复制成功", Snackbar.LENGTH_SHORT).show()
         })
 
         fragViewModel.keyList.observe(this, Observer {
+            Log.v("SnackBarTest", "get all keys")
             recyclerAdapter.keyList = it
             recyclerAdapter.notifyDataSetChanged()
         })
         fragViewModel.wrongMsg.observe(this, Observer {wrongMsg ->
-            Toast.makeText(this@KeyFragment.context, wrongMsg, Toast.LENGTH_LONG).show()
             Log.e("WrongMsg", wrongMsg)
         })
-        fragViewModel.numChanged.observe(this, Observer {num ->
-            when {
-                num < 0 -> Snackbar.make(activityAbove.view_pager, "删除成功", Snackbar.LENGTH_LONG)
+        fragViewModel.keyChangeType.observe(this, Observer {type ->
+            when (type) {
+                KEY_DELETE -> Snackbar.make(activityAbove.fab, "删除成功", Snackbar.LENGTH_LONG)
                     .setAction("撤销"){
                         fragViewModel.undoDelete()
                     }.show()
-                num == 1L -> Snackbar.make(activityAbove.view_pager, "添加成功", Snackbar.LENGTH_SHORT).show()
-                num == 2L -> Snackbar.make(activityAbove.view_pager, "撤销成功", Snackbar.LENGTH_SHORT).show()
-                else -> Snackbar.make(activityAbove.view_pager, "修改成功", Snackbar.LENGTH_SHORT).show()
+                KEY_ADD -> Snackbar.make(activityAbove.fab, "添加成功", Snackbar.LENGTH_SHORT).show()
+                KEY_UNDO -> Snackbar.make(activityAbove.fab, "撤销成功", Snackbar.LENGTH_SHORT).show()
+                KEY_EDIT -> Snackbar.make(activityAbove.fab, "修改成功", Snackbar.LENGTH_SHORT).show()
             }
+        })
+        fragViewModel.title.observe(this, Observer {
+            title = it
         })
     }
 
@@ -124,18 +131,27 @@ class KeyFragment(val title: String):Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.v("LifeCycleTest", "${title}: onCreate")
         inject()
+        setObserver()
     }
 
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
+        Log.v("LifeCycleTest", "${title}: onAttach")
         activityAbove = activity
     }
 
     override fun onResume() {
         super.onResume()
-        fragViewModel.getKeys(title)
-        recyclerAdapter.notifyDataSetChanged()
+        Log.v("LifeCycleTest", "${title}: onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fragViewModel.getTitleByOrder(order)
+        fragViewModel.getKeysByOrder(order)
+        Log.v("LifeCycleTest", "${title}: onStart")
     }
 
     override fun onCreateView(
@@ -143,11 +159,16 @@ class KeyFragment(val title: String):Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.v("LifeCycleTest", "${title}: onCreateView")
         return inflater.inflate(R.layout.frag_layout, container, false)
     }
 
     private fun inject(){
-        DaggerFragComponent.builder().fragModule(FragModule(this)).build().inject(this)
+        DaggerFragComponent.builder()
+            .baseComponent((activityAbove.application as MyApplication).getBaseComponent())
+            .fragModule(FragModule(this))
+            .build()
+            .inject(this)
     }
 
     private fun copyToBoard(s:String){

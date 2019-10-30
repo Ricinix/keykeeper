@@ -22,10 +22,24 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
 
     val wrongMsg = MutableLiveData<String>()
 
-    val numChanged = MutableLiveData<Long>()
+    val keyChangeType = MutableLiveData<Int>()
 
-    fun getKeys(category: String){
-        fragRepo.getKeys(category)
+    val title = MutableLiveData<String>()
+
+    fun getTitleByOrder(order: Int){
+        fragRepo.getTitleByOrder(order)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<String>{
+                override fun onSuccess(t: String) {
+                    title.value = t
+                }
+                override fun onSubscribe(d: Disposable) {}
+                override fun onError(e: Throwable) {}
+            })
+    }
+
+    fun getKeysByOrder(order: Int){
+        fragRepo.getKeysByOrder(order)
             .map {
                 it.sortedBy { key ->
                     var c =Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
@@ -53,9 +67,44 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
                     }
                     Log.v("MapTest", firstLetterMap.toString())
                 }
-
                 override fun onSubscribe(d: Disposable) {}
+                override fun onError(e: Throwable) {
+                    wrongMsg.value = e.message
+                }
 
+            })
+    }
+
+    fun getKeysByCategory(category: String){
+        fragRepo.getKeysByCategory(category)
+            .map {
+                it.sortedBy { key ->
+                    var c =Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
+                    if (c<"A" || c >"Z"){
+                        c = "a"
+                    }
+                    c
+                }
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object :SingleObserver<List<KeySimplify>>{
+                override fun onSuccess(t: List<KeySimplify>) {
+                    Log.v("SortTest", t.toString())
+                    keyList.value = t
+                    var oldFirst = ""
+                    for (i in t.indices){
+                        val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
+                        if (oldFirst != newFirst){
+                            if (newFirst>="A" && newFirst<="Z")
+                                firstLetterMap[newFirst] = i
+                            else
+                                firstLetterMap["#"] = i
+                            oldFirst = newFirst
+                        }
+                    }
+                    Log.v("MapTest", firstLetterMap.toString())
+                }
+                override fun onSubscribe(d: Disposable) {}
                 override fun onError(e: Throwable) {
                     wrongMsg.value = e.message
                 }
@@ -70,12 +119,10 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<Long>{
                 override fun onSuccess(t: Long) {
-                    numChanged.value = 1L
-                    getKeys(category)
+                    keyChangeType.value = KEY_ADD
+                    getKeysByCategory(category)
                 }
-
                 override fun onSubscribe(d: Disposable) {}
-
                 override fun onError(e: Throwable) {
                     wrongMsg.value = e.message
                 }
@@ -87,8 +134,8 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<Int>{
                 override fun onSuccess(t: Int) {
-                    numChanged.value = 0
-                    getKeys(category)
+                    keyChangeType.value = KEY_EDIT
+                    getKeysByCategory(category)
                 }
                 override fun onSubscribe(d: Disposable) {}
                 override fun onError(e: Throwable) {
@@ -107,12 +154,10 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :SingleObserver<Int>{
                 override fun onSuccess(t: Int) {
-                    numChanged.value = -t.toLong()
-                    getKeys(category)
+                    keyChangeType.value = KEY_DELETE
+                    getKeysByCategory(category)
                 }
-
                 override fun onSubscribe(d: Disposable) {}
-
                 override fun onError(e: Throwable) {
                     wrongMsg.value = e.message
                 }
@@ -125,17 +170,22 @@ class FragViewModel(private val fragRepo: FragRepo): ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object :SingleObserver<Long>{
                     override fun onSuccess(t: Long) {
-                        numChanged.value = 2L
-                        getKeys(it.category)
+                        keyChangeType.value = KEY_UNDO
+                        getKeysByCategory(it.category)
                     }
-
                     override fun onSubscribe(d: Disposable) {}
-
                     override fun onError(e: Throwable) {
                         wrongMsg.value = e.message
                     }
                 })
         }
 
+    }
+
+    companion object{
+        const val KEY_DELETE = 0
+        const val KEY_ADD = 1
+        const val KEY_UNDO = 2
+        const val KEY_EDIT = 3
     }
 }

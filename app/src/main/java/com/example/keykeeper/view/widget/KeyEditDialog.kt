@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import com.example.keykeeper.R
 import com.example.keykeeper.domain.Random
@@ -34,8 +35,13 @@ class KeyEditDialog(context: Context, private val listener: Listener): Dialog(co
         setContentView(R.layout.edit_dialog)
 
         setWidth()
+        setAnim()
         setBtnListener()
         setCanceledOnTouchOutside(false)
+    }
+
+    private fun setAnim(){
+        window?.setWindowAnimations(R.style.MyDialog)
     }
 
     private fun setWidth(){

@@ -1,24 +1,32 @@
 package com.example.keykeeper.view.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.keykeeper.R
+import com.example.keykeeper.di.component.DaggerBaseComponent
 import com.example.keykeeper.di.component.DaggerMainComponent
+import com.example.keykeeper.di.module.BaseModule
 import com.example.keykeeper.di.module.MainModule
+import com.example.keykeeper.view.MyApplication
 import com.example.keykeeper.view.adapter.ViewPagerAdapter
 import com.example.keykeeper.view.fragment.KeyFragment
 import com.example.keykeeper.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import kotlin.math.min
 
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainViewModel:MainViewModel
 
-    private val mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager,  listOf<KeyFragment>(), listOf())
+    private val mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +35,27 @@ class MainActivity : AppCompatActivity() {
         inject()
 
         setViewPagerListener()
-        mainViewModel.getTitle()
         setBtnListener()
+        setObserver()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mainViewModel.getTitle()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId){
+            R.id.menu_setting ->{
+                SettingsActivity.startThisActivity(this)
+            }
+        }
+        return true
     }
 
     private fun setBtnListener(){
@@ -42,29 +69,42 @@ class MainActivity : AppCompatActivity() {
     private fun setViewPagerListener(){
         view_pager.adapter = mViewPagerAdapter
         tab_layout.setupWithViewPager(view_pager)
-        mainViewModel.tabTitle.observe(this, Observer {newTitles->
-            val temp = ArrayList<KeyFragment>()
-            for (title in newTitles){
-                val index = mViewPagerAdapter.fragmentList.binarySearchBy(title){ keyFragment->
-                    keyFragment.title
-                }
-                if (-1 != index){
-                    temp.add(mViewPagerAdapter.fragmentList[index])
-                }else{
-                    temp.add(KeyFragment(title))
-                }
-            }
-            Log.v("TabTitleTest", temp.toString())
-            mViewPagerAdapter.let { adapter->
-                adapter.fragmentList = temp
-                adapter.tabTitle = newTitles
-                adapter.notifyDataSetChanged()
-            }
+    }
 
+    private fun setObserver(){
+        mainViewModel.tabTitle.observe(this, Observer {newTitles->
+            val minLastIndex = min(mViewPagerAdapter.fragmentList.lastIndex, newTitles.lastIndex)
+            // some Fragments need removing
+            if (minLastIndex < mViewPagerAdapter.fragmentList.lastIndex){
+                for (index in minLastIndex+1..mViewPagerAdapter.fragmentList.lastIndex){
+                    mViewPagerAdapter.fragmentList.removeAt(index)
+                }
+            }
+            // some Fragments need adding
+            else if (minLastIndex < newTitles.lastIndex){
+                for (index in minLastIndex+1..newTitles.lastIndex){
+                    mViewPagerAdapter.fragmentList.add(KeyFragment(index))
+                }
+            }
+            mViewPagerAdapter.titleList = newTitles.map { it.name }
+            mViewPagerAdapter.notifyDataSetChanged()
+            Log.v("LifeCycleTest", "viewPager: ${mViewPagerAdapter.titleList}")
         })
     }
 
     private fun inject(){
-        DaggerMainComponent.builder().mainModule(MainModule(this)).build().inject(this)
+        DaggerMainComponent.builder()
+            .baseComponent((application as MyApplication).getBaseComponent())
+            .mainModule(MainModule(this))
+            .build()
+            .inject(this)
+    }
+
+    companion object{
+        @JvmStatic
+        fun startThisActivity(context: Context){
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

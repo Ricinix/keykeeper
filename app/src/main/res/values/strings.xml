@@ -17,4 +17,27 @@
     <string name="switch_rand_pwd">随机密码</string>
     <string name="hide_pwd_toggle_tips">show/hide the password</string>
     <string name="copy_toggle_tips">copy the text</string>
+    <string name="setting">设置</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_the_position">set the position</string>
+    <string name="add_pic">add_pic</string>
+    <string name="please_input">请输入</string>
 </resources>

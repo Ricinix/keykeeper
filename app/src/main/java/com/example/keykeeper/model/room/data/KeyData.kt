@@ -2,9 +2,20 @@ package com.example.keykeeper.model.room.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "key_table")
+@Entity(
+    tableName = "key_table",
+    foreignKeys = [ForeignKey(
+        entity = TitleData::class,
+        parentColumns = ["name"],
+        childColumns = ["category"],
+        onDelete = CASCADE,
+        onUpdate = CASCADE
+    )]
+)
 data class KeyData (
     @PrimaryKey(autoGenerate = true) val id:Int = 0,
     @ColumnInfo(name = "name") val name:String,

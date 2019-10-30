@@ -1,12 +1,12 @@
 package com.example.keykeeper.di.component
 
 import com.example.keykeeper.di.module.FragModule
+import com.example.keykeeper.di.scope.FragmentScope
 import com.example.keykeeper.view.fragment.KeyFragment
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [FragModule::class])
+@FragmentScope
+@Component(modules = [FragModule::class], dependencies = [BaseComponent::class])
 interface FragComponent {
     fun inject(keyFragment: KeyFragment)
 }

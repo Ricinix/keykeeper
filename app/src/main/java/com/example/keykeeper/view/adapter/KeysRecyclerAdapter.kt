@@ -1,6 +1,5 @@
 package com.example.keykeeper.view.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
