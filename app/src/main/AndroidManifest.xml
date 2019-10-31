@@ -4,6 +4,7 @@
     package="com.example.keykeeper">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
         android:name=".view.MyApplication"
@@ -14,11 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".view.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleTask"/>
-        <activity android:name=".view.activity.MainActivity"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:theme="@style/AppTheme.StartTheme"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

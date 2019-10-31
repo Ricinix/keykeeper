@@ -27,7 +27,6 @@ class SettingsActivity : AppCompatActivity() {
         window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         setContentView(R.layout.settings_activity)
         setSupportActionBar(toolbar)
-        setTransition()
         changeToGeneralSetting()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -37,24 +36,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0)
             supportFragmentManager.popBackStack()
-        else
+        else{
             MainActivity.startThisActivity(this)
-    }
-
-    private fun setTransition(){
-        detailSettingFragment.run {
-            enterTransition = Slide(Gravity.END).apply { duration = 300 }
-            exitTransition = Slide(Gravity.END).apply { duration = 300 }
-        }
-
-        generalSettingFragment.run {
-            exitTransition = Slide(Gravity.START).apply { duration = 300 }
-            enterTransition = Slide(Gravity.START).apply { duration = 300 }
-        }
-
-        titleSettingFragment.run {
-            enterTransition = Slide(Gravity.END).apply { duration = 300 }
-            exitTransition = Slide(Gravity.END).apply { duration = 300 }
         }
     }
 

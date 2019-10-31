@@ -40,4 +40,6 @@
     <string name="set_the_position">set the position</string>
     <string name="add_pic">add_pic</string>
     <string name="please_input">请输入</string>
+    <string name="finger_print_pic">finger print pic</string>
+    <string name="tips_finger_print">请按下指纹</string>
 </resources>

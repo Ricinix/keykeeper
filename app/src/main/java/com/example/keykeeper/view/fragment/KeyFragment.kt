@@ -1,6 +1,5 @@
 package com.example.keykeeper.view.fragment
 
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -41,7 +40,7 @@ class KeyFragment(val order: Int):Fragment() {
 
 //    private val compositeDisposable = CompositeDisposable()
     private val recyclerAdapter = RecyclerAdapter()
-    lateinit var activityAbove: Activity
+    private lateinit var mContext: Context
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.v("LifeCycleTest", "${title}: onActivityCreated")
@@ -63,7 +62,7 @@ class KeyFragment(val order: Int):Fragment() {
             }
 
             override fun onDelete(keySimplify: KeySimplify) {
-                AlertDialog.Builder(this@KeyFragment.context?:activityAbove)
+                AlertDialog.Builder(mContext)
                     .setTitle("删除")
                     .setMessage("确定要删除${keySimplify.name}吗？")
                     .setPositiveButton("确定") { _, _ ->
@@ -77,7 +76,7 @@ class KeyFragment(val order: Int):Fragment() {
     private fun setObserver(){
         recyclerAdapter.copyText.observe(this, Observer {
             copyToBoard(it)
-            Snackbar.make(activityAbove.fab, "复制成功", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(activity?.fab?:keys_recycler, "复制成功", Snackbar.LENGTH_SHORT).show()
         })
 
         fragViewModel.keyList.observe(this, Observer {
@@ -90,13 +89,13 @@ class KeyFragment(val order: Int):Fragment() {
         })
         fragViewModel.keyChangeType.observe(this, Observer {type ->
             when (type) {
-                KEY_DELETE -> Snackbar.make(activityAbove.fab, "删除成功", Snackbar.LENGTH_LONG)
+                KEY_DELETE -> Snackbar.make(activity?.fab?:keys_recycler, "删除成功", Snackbar.LENGTH_LONG)
                     .setAction("撤销"){
                         fragViewModel.undoDelete()
                     }.show()
-                KEY_ADD -> Snackbar.make(activityAbove.fab, "添加成功", Snackbar.LENGTH_SHORT).show()
-                KEY_UNDO -> Snackbar.make(activityAbove.fab, "撤销成功", Snackbar.LENGTH_SHORT).show()
-                KEY_EDIT -> Snackbar.make(activityAbove.fab, "修改成功", Snackbar.LENGTH_SHORT).show()
+                KEY_ADD -> Snackbar.make(activity?.fab?:keys_recycler, "添加成功", Snackbar.LENGTH_SHORT).show()
+                KEY_UNDO -> Snackbar.make(activity?.fab?:keys_recycler, "撤销成功", Snackbar.LENGTH_SHORT).show()
+                KEY_EDIT -> Snackbar.make(activity?.fab?:keys_recycler, "修改成功", Snackbar.LENGTH_SHORT).show()
             }
         })
         fragViewModel.title.observe(this, Observer {
@@ -105,7 +104,7 @@ class KeyFragment(val order: Int):Fragment() {
     }
 
     fun addNewKey(){
-        val editDialog = KeyEditDialog(this.context?:activityAbove, object :KeyEditDialog.Listener{
+        val editDialog = KeyEditDialog(mContext, object :KeyEditDialog.Listener{
             override fun onConfirm(name: String, account: String, password: String, kind: String) {
                 fragViewModel.addNewData(name, account, password, kind, title)
             }
@@ -115,7 +114,7 @@ class KeyFragment(val order: Int):Fragment() {
     }
 
     fun editKey(keySimplify: KeySimplify){
-        val editDialog = KeyEditDialog(this.context?:activityAbove, object :KeyEditDialog.Listener{
+        val editDialog = KeyEditDialog(mContext, object :KeyEditDialog.Listener{
             override fun onConfirm(name: String, account: String, password: String, kind: String) {
                 keySimplify.name = name
                 keySimplify.account = account
@@ -136,10 +135,9 @@ class KeyFragment(val order: Int):Fragment() {
         setObserver()
     }
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-        Log.v("LifeCycleTest", "${title}: onAttach")
-        activityAbove = activity
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
     }
 
     override fun onResume() {
@@ -165,7 +163,7 @@ class KeyFragment(val order: Int):Fragment() {
 
     private fun inject(){
         DaggerFragComponent.builder()
-            .baseComponent((activityAbove.application as MyApplication).getBaseComponent())
+            .baseComponent((activity?.application as MyApplication).getBaseComponent())
             .fragModule(FragModule(this))
             .build()
             .inject(this)

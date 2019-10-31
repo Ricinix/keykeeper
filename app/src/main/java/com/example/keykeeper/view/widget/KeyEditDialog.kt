@@ -41,7 +41,7 @@ class KeyEditDialog(context: Context, private val listener: Listener): Dialog(co
     }
 
     private fun setAnim(){
-        window?.setWindowAnimations(R.style.MyDialog)
+        window?.setWindowAnimations(R.style.KeyDialogAnimation)
     }
 
     private fun setWidth(){
