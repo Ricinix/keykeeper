@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.transition.FragmentTransitionSupport
@@ -16,7 +17,7 @@ import com.example.keykeeper.view.fragment.GeneralSettingFragment
 import com.example.keykeeper.view.fragment.TitleSettingFragment
 import kotlinx.android.synthetic.main.settings_activity.*
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     private val generalSettingFragment = GeneralSettingFragment()
     private val detailSettingFragment = DetailSettingFragment()
@@ -24,8 +25,9 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+//        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         setContentView(R.layout.settings_activity)
+        setMyContentView(findViewById(R.id.main_layout2), findViewById(R.id.cover_layout2))
         setSupportActionBar(toolbar)
         changeToGeneralSetting()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
