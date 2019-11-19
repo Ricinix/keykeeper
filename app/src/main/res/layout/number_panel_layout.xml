@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.keykeeper.view.widget.NumLockPanel
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+
+        <com.example.keykeeper.view.widget.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp" />
+    </LinearLayout>
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:number="5" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@id/number_btn_5"
+        app:layout_constraintEnd_toEndOf="@id/number_btn_5"
+        app:layout_constraintStart_toStartOf="@id/number_btn_5"
+        app:number="2" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_2"
+        app:layout_constraintEnd_toStartOf="@id/number_btn_2"
+        app:layout_constraintTop_toTopOf="@id/number_btn_2"
+        app:number="1" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_2"
+        app:layout_constraintStart_toEndOf="@id/number_btn_2"
+        app:layout_constraintTop_toTopOf="@id/number_btn_2"
+        app:number="3" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_5"
+        app:layout_constraintEnd_toStartOf="@id/number_btn_5"
+        app:layout_constraintTop_toTopOf="@id/number_btn_5"
+        app:number="4" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_5"
+        app:layout_constraintStart_toEndOf="@id/number_btn_5"
+        app:layout_constraintTop_toTopOf="@id/number_btn_5"
+        app:number="6" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="@id/number_btn_5"
+        app:layout_constraintStart_toStartOf="@id/number_btn_5"
+        app:layout_constraintTop_toBottomOf="@id/number_btn_5"
+        app:number="8" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_8"
+        app:layout_constraintEnd_toStartOf="@id/number_btn_8"
+        app:layout_constraintTop_toTopOf="@id/number_btn_8"
+        app:number="7" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_8"
+        app:layout_constraintStart_toEndOf="@id/number_btn_8"
+        app:layout_constraintTop_toTopOf="@id/number_btn_8"
+        app:number="9" />
+
+    <com.example.keykeeper.view.widget.NumberImageView
+        android:id="@+id/number_btn_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="@id/number_btn_8"
+        app:layout_constraintStart_toStartOf="@id/number_btn_8"
+        app:layout_constraintTop_toBottomOf="@id/number_btn_8"
+        app:number="0" />
+
+    <ImageView
+        android:src="@drawable/ic_backspace_white_48dp"
+        android:id="@+id/number_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@id/number_btn_0"
+        app:layout_constraintStart_toStartOf="@id/number_btn_9"
+        app:layout_constraintEnd_toEndOf="@id/number_btn_9"
+        app:layout_constraintTop_toTopOf="@id/number_btn_0"
+        android:contentDescription="@string/backspace" />
+
+    <TextView
+        android:text="@string/please_input_pwd"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</com.example.keykeeper.view.widget.NumLockPanel>

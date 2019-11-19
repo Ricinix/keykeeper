@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_main)
-        setMyContentView(findViewById(R.id.main_layout), findViewById(R.id.cover_layout))
+        setMyContentView(main_layout, cover_layout, number_panel_layout)
         checkFingerPrint()
         setSupportActionBar(tool_bar)
         inject()

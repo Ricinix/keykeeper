@@ -23,8 +23,7 @@
 
         <activity
             android:name=".view.activity.MainActivity"
-            android:theme="@style/AppTheme.StartTheme"
-            android:launchMode="singleTask">
+            android:theme="@style/AppTheme.StartTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

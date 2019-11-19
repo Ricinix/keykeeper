@@ -3,13 +3,7 @@ package com.example.keykeeper.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.Window
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.transition.FragmentTransitionSupport
-import androidx.transition.Slide
 import com.example.keykeeper.R
 import com.example.keykeeper.view.adapter.GeneralSettingRecyclerAdapter
 import com.example.keykeeper.view.fragment.DetailSettingFragment
@@ -27,7 +21,7 @@ class SettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 //        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         setContentView(R.layout.settings_activity)
-        setMyContentView(findViewById(R.id.main_layout2), findViewById(R.id.cover_layout2))
+        setMyContentView(main_layout2, cover_layout2, number_panel_layout2)
         setSupportActionBar(toolbar)
         changeToGeneralSetting()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -39,7 +33,10 @@ class SettingsActivity : BaseActivity() {
         if (supportFragmentManager.backStackEntryCount > 0)
             supportFragmentManager.popBackStack()
         else{
-            MainActivity.startThisActivity(this)
+            if (isTaskRoot)
+                MainActivity.startThisActivity(this)
+            else
+                finish()
         }
     }
 

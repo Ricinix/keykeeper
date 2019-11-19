@@ -42,4 +42,7 @@
     <string name="please_input">请输入</string>
     <string name="finger_print_pic">finger print pic</string>
     <string name="tips_finger_print">请按下指纹</string>
+    <string name="finger_print_number_tips">输入密码</string>
+    <string name="backspace">backspace</string>
+    <string name="please_input_pwd">请输入密码</string>
 </resources>
