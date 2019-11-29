@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/intro_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tips_core_pwd"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/details_intro_core_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/tips_core_pwd_details"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/intro_title_2" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/input_core_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/selector_et_underline"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:maxLength="30"
+        android:textCursorDrawable="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/details_intro_core_pwd" />
+
+    <ImageButton
+        android:id="@+id/hide_core_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/hide_pwd_toggle_tips"
+        android:src="@drawable/selector_hide_pwd_white"
+        app:layout_constraintBottom_toBottomOf="@id/input_core_pwd"
+        app:layout_constraintLeft_toRightOf="@id/input_core_pwd"
+        app:layout_constraintTop_toTopOf="@id/input_core_pwd" />
+
+    <ImageButton
+        android:id="@+id/next_btn_2"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle_btn"
+        android:contentDescription="@string/next_step"
+        android:src="@drawable/ic_chevron_right_white_60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <ImageButton
+        android:id="@+id/previous_btn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circle_btn"
+        android:contentDescription="@string/previous_step"
+        android:src="@drawable/ic_chevron_left_white_60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

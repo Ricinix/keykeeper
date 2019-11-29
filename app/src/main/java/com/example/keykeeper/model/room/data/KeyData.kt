@@ -1,10 +1,7 @@
 package com.example.keykeeper.model.room.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "key_table",
@@ -14,7 +11,8 @@ import androidx.room.PrimaryKey
         childColumns = ["category"],
         onDelete = CASCADE,
         onUpdate = CASCADE
-    )]
+    )],
+    indices = [Index("category", name = "index_category")]
 )
 data class KeyData (
     @PrimaryKey(autoGenerate = true) val id:Int = 0,

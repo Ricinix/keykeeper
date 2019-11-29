@@ -8,7 +8,6 @@ import com.example.keykeeper.model.room.data.TitleData
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 class MainViewModel(private val mainRepo: MainRepo):ViewModel() {
 

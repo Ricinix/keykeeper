@@ -77,11 +77,9 @@ class SettingsActivity : BaseActivity() {
     }
 
     companion object{
-        private const val FROM_OTHER_ACTIVITY = 1
         @JvmStatic
         fun startThisActivity(context: Context){
             val intent = Intent(context, SettingsActivity::class.java)
-            intent.putExtra("intent", FROM_OTHER_ACTIVITY)
             context.startActivity(intent)
         }
     }

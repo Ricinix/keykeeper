@@ -1,4 +1,4 @@
-package com.example.keykeeper.viewModel.VMFactory
+package com.example.keykeeper.viewModel.viewModelFactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

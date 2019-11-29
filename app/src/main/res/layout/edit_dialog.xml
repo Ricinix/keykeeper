@@ -3,14 +3,14 @@
 <LinearLayout android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_corner_bg"
+    android:background="@drawable/bg_dialog_corner"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/title_bg"
+        android:background="@drawable/bg_title"
         android:layout_marginEnd="3dp"
         android:gravity="center"
         android:paddingTop="7dp"

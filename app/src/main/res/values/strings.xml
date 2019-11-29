@@ -45,4 +45,14 @@
     <string name="finger_print_number_tips">输入密码</string>
     <string name="backspace">backspace</string>
     <string name="please_input_pwd">请输入密码</string>
+    <string name="welcome_use">欢迎使用</string>
+    <string name="next_step">next step</string>
+    <string name="tips_core_pwd">请输入密钥</string>
+    <string name="tips_core_pwd_details">此密钥非常重要\n一旦设置则无法更改\n请务必记牢</string>
+    <string name="previous_step">previous step btn</string>
+    <string name="tips_lock_pwd">请输入解锁密码</string>
+    <string name="tips_lock_pwd_details">请输入解锁密码\n要求为六位纯数字</string>
+    <string name="tips_check_box_use_fingerprint">使用指纹解锁</string>
+    <string name="title_intro_finish">设置完成</string>
+    <string name="tips_intro_finish">开始激动人心的密码之旅吧~</string>
 </resources>

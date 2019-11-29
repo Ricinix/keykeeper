@@ -6,7 +6,7 @@ import com.example.keykeeper.model.repo.FragRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.fragment.KeyFragment
 import com.example.keykeeper.viewModel.FragViewModel
-import com.example.keykeeper.viewModel.VMFactory.FragViewModelFactory
+import com.example.keykeeper.viewModel.viewModelFactory.FragViewModelFactory
 import dagger.Module
 import dagger.Provides
 

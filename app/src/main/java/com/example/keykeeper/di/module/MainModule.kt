@@ -6,7 +6,7 @@ import com.example.keykeeper.model.repo.MainRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.activity.MainActivity
 import com.example.keykeeper.viewModel.MainViewModel
-import com.example.keykeeper.viewModel.VMFactory.MainViewModelFactory
+import com.example.keykeeper.viewModel.viewModelFactory.MainViewModelFactory
 import dagger.Module
 import dagger.Provides
 

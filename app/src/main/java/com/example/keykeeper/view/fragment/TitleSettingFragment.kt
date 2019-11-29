@@ -96,7 +96,7 @@ class TitleSettingFragment : Fragment() {
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
                 if (actionState != ItemTouchHelper.ACTION_STATE_IDLE){
-                    viewHolder?.itemView?.background = resources.getDrawable(R.drawable.title_item_bg)
+                    viewHolder?.itemView?.background = resources.getDrawable(R.drawable.bg_title_item)
                 }
             }
 

@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.example.keykeeper.R
 import com.example.keykeeper.di.component.DaggerMainComponent
@@ -29,7 +30,13 @@ class MainActivity : BaseActivity() {
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_main)
         setMyContentView(main_layout, cover_layout, number_panel_layout)
-        checkFingerPrint()
+        if (password.isEmpty()){
+            IntroActivity.startThisActivity(this)
+            finish()
+        }
+        if (intent.getBooleanExtra("need_check_finger_print", true)){
+            checkFingerPrint()
+        }
         setSupportActionBar(tool_bar)
         inject()
 
@@ -102,8 +109,9 @@ class MainActivity : BaseActivity() {
 
     companion object{
         @JvmStatic
-        fun startThisActivity(context: Context){
+        fun startThisActivity(context: Context, needCheckFingerPrint: Boolean=true){
             val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("need_check_finger_print", needCheckFingerPrint)
             context.startActivity(intent)
         }
     }

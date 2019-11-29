@@ -1,13 +1,12 @@
 package com.example.keykeeper.di.module
 
-import android.content.Context.MODE_PRIVATE
 import androidx.lifecycle.ViewModelProviders
 import com.example.keykeeper.di.scope.FragmentScope
 import com.example.keykeeper.model.repo.TitleRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.fragment.TitleSettingFragment
 import com.example.keykeeper.viewModel.TitleViewModel
-import com.example.keykeeper.viewModel.VMFactory.TitleViewModelFactory
+import com.example.keykeeper.viewModel.viewModelFactory.TitleViewModelFactory
 import dagger.Module
 import dagger.Provides
 
