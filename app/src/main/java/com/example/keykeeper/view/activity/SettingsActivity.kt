@@ -3,13 +3,14 @@ package com.example.keykeeper.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.keykeeper.R
 import com.example.keykeeper.view.adapter.GeneralSettingRecyclerAdapter
 import com.example.keykeeper.view.fragment.DetailSettingFragment
 import com.example.keykeeper.view.fragment.GeneralSettingFragment
 import com.example.keykeeper.view.fragment.TitleSettingFragment
-import kotlinx.android.synthetic.main.settings_activity.*
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : BaseActivity() {
 
@@ -20,19 +21,23 @@ class SettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-        setContentView(R.layout.settings_activity)
-        setMyContentView(main_layout2, cover_layout2, number_panel_layout2)
-        setSupportActionBar(toolbar)
+        setContentView(R.layout.activity_settings)
+        setMyContentView(layout_setting, layout_cover_2, layout_number_panel_2)
+        setSupportActionBar(toolbar_setting)
         changeToGeneralSetting()
+        // 设置左上角的三杠键
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setObserver()
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0)
+        // 若还有fragment在堆栈中，就弹出该fragment，否则返回MainActivity
+        if (isAtCheck()) {
+            Toast.makeText(this, "请验证身份", Toast.LENGTH_SHORT).show()
+        } else if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
-        else{
+        } else {
             if (isTaskRoot)
                 MainActivity.startThisActivity(this)
             else
@@ -40,45 +45,46 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun setObserver(){
-        generalSettingFragment.fragChangeId.observe(this, Observer { id->
-            when (id){
-                GeneralSettingRecyclerAdapter.TITLE_SETTING->{
+    private fun setObserver() {
+        // 从一般设置中选择进入哪个设置页面
+        generalSettingFragment.fragChangeId.observe(this, Observer { id ->
+            when (id) {
+                GeneralSettingRecyclerAdapter.TITLE_SETTING -> {
                     changeToTitleSetting()
                 }
-                GeneralSettingRecyclerAdapter.DETAIL_SETTING->{
+                GeneralSettingRecyclerAdapter.DETAIL_SETTING -> {
                     changeToDetailSetting()
                 }
             }
         })
     }
 
-    private fun changeToTitleSetting(){
+    private fun changeToTitleSetting() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings, titleSettingFragment, "title")
+            .replace(R.id.container_setting, titleSettingFragment, "title")
             .addToBackStack("general")
             .commit()
     }
 
-    private fun changeToDetailSetting(){
+    private fun changeToDetailSetting() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings, detailSettingFragment, "detail")
+            .replace(R.id.container_setting, detailSettingFragment, "detail")
             .addToBackStack("general")
             .commit()
     }
 
-    private fun changeToGeneralSetting(){
+    private fun changeToGeneralSetting() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings, generalSettingFragment, "general")
+            .replace(R.id.container_setting, generalSettingFragment, "general")
             .commit()
     }
 
-    companion object{
+    companion object {
         @JvmStatic
-        fun startThisActivity(context: Context){
+        fun startThisActivity(context: Context) {
             val intent = Intent(context, SettingsActivity::class.java)
             context.startActivity(intent)
         }

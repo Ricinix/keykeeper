@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="3dp"
     app:cardCornerRadius="5dp"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true"
-    android:elevation="3dp"
-    android:layout_margin="5dp">
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/key_name"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name_key"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="2"
-            android:text="@string/key_name"
-            android:maxEms="10"
             android:ellipsize="end"
+            android:maxEms="10"
             android:singleLine="true"
+            android:text="@string/key_name"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -36,8 +36,8 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/account_text"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/account_key_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/key_account"
@@ -46,26 +46,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/key_account"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/account_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@id/account_text"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:maxEms="9"
                 android:ellipsize="end"
+                android:maxEms="9"
                 android:singleLine="true"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/account_key_text"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/account_copy"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_key_account_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/copy_toggle_tips"
+                android:contentDescription="@string/description_key_copy_toggle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -82,47 +82,47 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/password_text"
+                android:id="@+id/password_key_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/key_password"
+                android:text="@string/text_key_password"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/key_password"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/password_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ellipsize="end"
+                android:maxEms="9"
                 android:singleLine="true"
                 android:textSize="18sp"
-                android:maxEms="9"
-                android:ellipsize="end"
-                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/password_text"
+                app:layout_constraintStart_toEndOf="@+id/password_key_text"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/hide_pwd"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_key_hide_pwd"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center|end"
-                android:background="@drawable/selector_hide_pwd"
                 android:layout_marginEnd="25dp"
+                android:background="@drawable/selector_hide_pwd"
+                android:contentDescription="@string/description_hide_pwd_toggle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/pwd_copy"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/hide_pwd_toggle_tips" />
+                app:layout_constraintEnd_toStartOf="@id/btn_key_pwd_copy"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/pwd_copy"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_key_pwd_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/copy_toggle_tips"
+                android:contentDescription="@string/description_key_copy_toggle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -138,25 +138,25 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/key_edit_btn"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_key_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:text="@string/key_edit"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:text="@string/text_key_edit"
                 android:textColor="@color/colorEdit"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/key_delete_btn"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_key_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:clickable="true"
-                android:text="@string/key_delete"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:text="@string/text_key_delete"
                 android:textColor="@color/colorEdit"
                 android:textSize="15sp"
                 android:textStyle="bold" />

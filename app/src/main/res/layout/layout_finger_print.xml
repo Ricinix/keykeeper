@@ -6,13 +6,13 @@
     android:background="@color/colorPrimary">
 
     <TextView
-        android:id="@+id/finger_print"
+        android:id="@+id/title_finger_print"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:drawableTop="@drawable/ic_fingerprint_white_36dp"
         android:drawablePadding="15dp"
-        android:text="@string/tips_finger_print"
+        android:text="@string/text_finger_print_tap_on"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,13 +22,13 @@
         app:layout_constraintVertical_bias="0.289" />
 
     <TextView
-        android:id="@+id/finger_print_number_tips"
+        android:id="@+id/title_finger_print_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
-        android:text="@string/finger_print_number_tips"
+        android:text="@string/text_finger_print_to_number_lock_panel"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

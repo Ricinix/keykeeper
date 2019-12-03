@@ -38,7 +38,8 @@ class GeneralSettingFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        general_setting_recycler.let {
+        // recyclerView的设置
+        recycler_frag_general_setting.let {
             it.layoutManager = LinearLayoutManager(myContext)
             it.adapter = adapter
         }

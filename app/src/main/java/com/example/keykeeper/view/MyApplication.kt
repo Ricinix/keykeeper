@@ -10,6 +10,7 @@ class MyApplication:Application() {
 
     override fun onCreate() {
         super.onCreate()
+        // 全局注射器（拿来给数据库inject的）
         baseComponent = DaggerBaseComponent.builder().baseModule(BaseModule(applicationContext)).build()
     }
 

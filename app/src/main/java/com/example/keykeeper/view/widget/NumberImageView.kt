@@ -15,18 +15,21 @@ class NumberImageView(context: Context, attributeSet: AttributeSet?, defStyleAtt
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(context: Context) : this(context, null)
 
-    private val number = kotlin.run {
-        val a = context.obtainStyledAttributes(attributeSet, R.styleable.NumberImageView)
-        val t = a.getString(R.styleable.NumberImageView_number) ?: " "
-        Log.d(TAG, "test: $t")
-        a.recycle()
-        t
+    private val number = run{
+        // 获取自定义的字段
+        val attr = context.obtainStyledAttributes(attributeSet, R.styleable.NumberImageView)
+        val num = attr.getString(R.styleable.NumberImageView_number) ?: " "
+        Log.d(TAG, "test: $num")
+        attr.recycle()
+        num
     }
-    private val mPaint = Paint()
+    // 圆圈的画笔
+    private val circlePaint = Paint()
+    // 数字的画笔
     private val textPaint = Paint()
 
     init {
-        mPaint.run {
+        circlePaint.run {
             style = Paint.Style.STROKE
             isAntiAlias = true
             color = Color.WHITE
@@ -45,6 +48,7 @@ class NumberImageView(context: Context, attributeSet: AttributeSet?, defStyleAtt
         val widthSpecSize = MeasureSpec.getSize(widthMeasureSpec)
         val heightSpecMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSpecSize = MeasureSpec.getSize(heightMeasureSpec)
+        // 圆的直径（包括画笔的宽度）加上padding
         val mWidth = (RADIUS + STROKE_WIDTH) * 2 + paddingLeft + paddingRight
         val mHeight = (RADIUS + STROKE_WIDTH) * 2 + paddingBottom + paddingTop
         if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
@@ -60,7 +64,7 @@ class NumberImageView(context: Context, attributeSet: AttributeSet?, defStyleAtt
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawCircle(width / 2f, height / 2f, RADIUS.toFloat(), mPaint)
+        canvas?.drawCircle(width / 2f, height / 2f, RADIUS.toFloat(), circlePaint)
         canvas?.drawText(
             number,
             (width - getTextWidth(number)) / 2f,
@@ -69,17 +73,24 @@ class NumberImageView(context: Context, attributeSet: AttributeSet?, defStyleAtt
         )
     }
 
+    /**
+     * 通过获取边界的方法来获取高度
+     */
     private fun getTextHeight(letter: String): Float {
         val rect = Rect()
         textPaint.getTextBounds(letter, 0, 1, rect)
         return rect.height().toFloat()
     }
 
+    /**
+     * 通过分辨率密度来将设计稿长度单位变成像素个数
+     */
     private fun sp2px(spValue: Int): Float {
         val fontScale = context.resources.displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5f)
     }
 
+    // 直接measure就可以获取宽度
     private fun getTextWidth(letter: String): Float = textPaint.measureText(letter)
 
     companion object {

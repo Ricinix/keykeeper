@@ -6,10 +6,10 @@
     android:background="@color/colorPrimary">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/intro_title_3"
+        android:id="@+id/title_intro_lock_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tips_lock_pwd"
+        android:text="@string/text_intro_lock_pwd"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,67 +24,67 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/tips_lock_pwd_details"
+        android:text="@string/tips_intro_lock_pwd"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/intro_title_3" />
+        app:layout_constraintTop_toBottomOf="@id/title_intro_lock_pwd" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/input_lock_pwd"
+        android:id="@+id/input_intro_lock_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="60dp"
         android:background="@drawable/selector_et_underline"
-        android:textColor="@android:color/white"
         android:gravity="center"
         android:inputType="numberPassword"
         android:maxLines="1"
+        android:textColor="@android:color/white"
         android:textCursorDrawable="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/details_intro_lock_pwd" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/hide_lock_pwd"
+        android:id="@+id/btn_intro_hide_lock_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/hide_pwd_toggle_tips"
+        android:contentDescription="@string/description_hide_pwd_toggle"
         android:src="@drawable/selector_hide_pwd_white"
-        app:layout_constraintBottom_toBottomOf="@id/input_lock_pwd"
-        app:layout_constraintLeft_toRightOf="@id/input_lock_pwd"
-        app:layout_constraintTop_toTopOf="@id/input_lock_pwd" />
+        app:layout_constraintBottom_toBottomOf="@id/input_intro_lock_pwd"
+        app:layout_constraintLeft_toRightOf="@id/input_intro_lock_pwd"
+        app:layout_constraintTop_toTopOf="@id/input_intro_lock_pwd" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/details_intro_enable_fingerprint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tips_check_box_use_fingerprint"
-        android:gravity="center"
-        android:textColor="@android:color/white"
         android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/tips_intro_check_box_use_fingerprint"
+        android:textColor="@android:color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_lock_pwd" />
+        app:layout_constraintTop_toBottomOf="@id/input_intro_lock_pwd" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/checkbox_enable_fingerprint"
+        android:id="@+id/checkbox_intro_enable_fingerprint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@id/details_intro_enable_fingerprint"
         app:layout_constraintLeft_toRightOf="@id/details_intro_enable_fingerprint"
-        app:layout_constraintTop_toTopOf="@id/details_intro_enable_fingerprint"
-        app:layout_constraintBottom_toBottomOf="@id/details_intro_enable_fingerprint"/>
+        app:layout_constraintTop_toTopOf="@id/details_intro_enable_fingerprint" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/next_btn_3"
-        android:visibility="gone"
+        android:id="@+id/btn_intro_next_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_circle_btn"
-        android:contentDescription="@string/next_step"
+        android:contentDescription="@string/description_intro_next_step"
         android:src="@drawable/ic_chevron_right_white_60dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
@@ -93,11 +93,11 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/previous_btn_3"
+        android:id="@+id/btn_intro_previous_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_circle_btn"
-        android:contentDescription="@string/previous_step"
+        android:contentDescription="@string/description_intro_previous_step"
         android:src="@drawable/ic_chevron_left_white_60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

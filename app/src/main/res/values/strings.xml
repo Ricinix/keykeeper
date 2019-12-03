@@ -1,22 +1,22 @@
 <resources>
     <string name="app_name">KeyKeeper</string>
     <string name="key_account">账号</string>
-    <string name="key_password">密码</string>
+    <string name="text_key_password">密码</string>
     <string name="key_name">名字</string>
-    <string name="key_edit">编辑</string>
-    <string name="key_delete">删除</string>
-    <string name="cancel_btn">取消</string>
-    <string name="confirm_btn">确认</string>
-    <string name="EditTitle">编辑中</string>
-    <string name="input_name_tips">请输入名字</string>
-    <string name="input_account_tips">请输入账号</string>
-    <string name="input_pwd_tips">请输入密码</string>
+    <string name="text_key_edit">编辑</string>
+    <string name="text_key_delete">删除</string>
+    <string name="tips_dialog_key_cancel_btn">取消</string>
+    <string name="tips_dialog_key_confirm">确认</string>
+    <string name="title_dialog_key">编辑中</string>
+    <string name="hint_dialog_key_input_name">请输入名字</string>
+    <string name="hint_dialog_key_input_account">请输入账号</string>
+    <string name="hint_dialog_key_input_pwd">请输入密码</string>
     <string name="check_box_show_pwd">显示密码</string>
-    <string name="radio_btn_mix_pwd">混合密码</string>
-    <string name="radio_btn_num_pwd">数字密码</string>
-    <string name="switch_rand_pwd">随机密码</string>
-    <string name="hide_pwd_toggle_tips">show/hide the password</string>
-    <string name="copy_toggle_tips">copy the text</string>
+    <string name="tips_dialog_key_radio_btn_mix_pwd">混合密码</string>
+    <string name="tips_radio_btn_dialog_key_num_pwd">数字密码</string>
+    <string name="tips_dialog_key_switch_rand_pwd">随机密码</string>
+    <string name="description_hide_pwd_toggle">show/hide the password</string>
+    <string name="description_key_copy_toggle">copy the text</string>
     <string name="setting">设置</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -37,22 +37,22 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="set_the_position">set the position</string>
-    <string name="add_pic">add_pic</string>
-    <string name="please_input">请输入</string>
+    <string name="description_item_title_set_the_position">set the position</string>
+    <string name="description_item_title_add_pic">add_pic</string>
+    <string name="hint_please_input">请输入</string>
     <string name="finger_print_pic">finger print pic</string>
-    <string name="tips_finger_print">请按下指纹</string>
-    <string name="finger_print_number_tips">输入密码</string>
-    <string name="backspace">backspace</string>
-    <string name="please_input_pwd">请输入密码</string>
-    <string name="welcome_use">欢迎使用</string>
-    <string name="next_step">next step</string>
-    <string name="tips_core_pwd">请输入密钥</string>
-    <string name="tips_core_pwd_details">此密钥非常重要\n一旦设置则无法更改\n请务必记牢</string>
-    <string name="previous_step">previous step btn</string>
-    <string name="tips_lock_pwd">请输入解锁密码</string>
-    <string name="tips_lock_pwd_details">请输入解锁密码\n要求为六位纯数字</string>
-    <string name="tips_check_box_use_fingerprint">使用指纹解锁</string>
-    <string name="title_intro_finish">设置完成</string>
+    <string name="text_finger_print_tap_on">请按下指纹</string>
+    <string name="text_finger_print_to_number_lock_panel">输入密码</string>
+    <string name="description_number_panel_backspace">backspace</string>
+    <string name="tips_number_panel_please_input_pwd">请输入密码</string>
+    <string name="text_intro_welcome_use">欢迎使用</string>
+    <string name="description_intro_next_step">next step</string>
+    <string name="text_intro_core_pwd">请输入密钥</string>
+    <string name="tips_intro_core_pwd">此密钥非常重要\n一旦设置则无法更改\n请务必记牢</string>
+    <string name="description_intro_previous_step">previous step btn</string>
+    <string name="text_intro_lock_pwd">请输入解锁密码</string>
+    <string name="tips_intro_lock_pwd">请输入解锁密码\n要求为六位纯数字</string>
+    <string name="tips_intro_check_box_use_fingerprint">使用指纹解锁</string>
+    <string name="text_intro_finish">设置完成</string>
     <string name="tips_intro_finish">开始激动人心的密码之旅吧~</string>
 </resources>

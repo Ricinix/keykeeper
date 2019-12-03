@@ -9,6 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.example.keykeeper"
         minSdkVersion 27
         targetSdkVersion 28

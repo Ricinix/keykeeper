@@ -11,17 +11,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import com.example.keykeeper.view.widget.NumLockPanel
-import kotlinx.android.synthetic.main.finger_print_layout.*
+import kotlinx.android.synthetic.main.layout_finger_print.*
 
 open class BaseActivity : AppCompatActivity() {
+    // 状态码，判断当前是否是从后台切回前台
     private var fingerCheckCode = FROM_BACK
+    // 主布局
     private lateinit var mainLayoutView: View
+    // 指纹遮盖布局
     private lateinit var coverLayoutView: View
+    // 数字遮盖布局
     private lateinit var numberPanelView: View
+    // 指纹
     private lateinit var fingerPrint: FingerprintManagerCompat
-    protected var password = ""
-        private set
+    // 供MainActivity调用，来判断当前是否有密码，若无密码则是第一次启动
+    private var password = ""
+
     private var fingerEnable = true
+    // 处理指纹解锁的handler
     private val handler = Handler {
         when (it.what) {
             CHECK_SUCCEED -> onFingerPrintCheckSucceed()
@@ -32,16 +39,27 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 设置后台任务列表不可见
         window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
         )
         fingerPrint = FingerprintManagerCompat.from(this)
+        // 从SharedPreferences获取解锁密码以及指纹是否启用
         val pref = getSharedPreferences("password", Context.MODE_PRIVATE)
         password = pref.getString("lock_pwd", "")!!
         fingerEnable = pref.getBoolean("finger_enable", true)
     }
 
+    /**
+     * 在子类Activity中的setContentView后调用
+     *
+     * [mainLayoutView] : 显示的主布局
+     *
+     * [coverLayoutView] : 指指纹布局
+     *
+     * [numberPanelView] : 指数字解锁界面
+     */
     protected fun setMyContentView(
         mainLayoutView: View,
         coverLayoutView: View,
@@ -50,14 +68,16 @@ open class BaseActivity : AppCompatActivity() {
         this.mainLayoutView = mainLayoutView
         this.coverLayoutView = coverLayoutView
         this.numberPanelView = numberPanelView
+        // 向下转型成NumLockPanel（自定义的view），并传入解锁成功的回调
         (this.numberPanelView as NumLockPanel).onCheckPassword = {
+            // 判断密码是否一致
             val isSucceed = password == it
             if (isSucceed) {
                 onNumCheckSucceed()
             }
             isSucceed
         }
-        finger_print_number_tips.setOnClickListener {
+        title_finger_print_number.setOnClickListener {
             showNumLockPanel()
         }
     }
@@ -71,39 +91,50 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    // 隐藏指纹布局，展示数字解锁布局
     private fun showNumLockPanel() {
         coverLayoutView.visibility = View.GONE
         numberPanelView.visibility = View.VISIBLE
     }
 
+    // 隐藏数字解锁布局，展示主布局
     private fun onNumCheckSucceed() {
         mainLayoutView.visibility = View.VISIBLE
         numberPanelView.visibility = View.GONE
         fingerCheckCode = FROM_BACK
+        onCheckSucceed()
     }
 
-    open fun onFingerPrintCheckSucceed() {
+    // 隐藏指纹布局，展示主布局
+    private fun onFingerPrintCheckSucceed() {
         mainLayoutView.visibility = View.VISIBLE
         coverLayoutView.visibility = View.GONE
         fingerCheckCode = FROM_BACK
+        onCheckSucceed()
     }
 
+    open fun onCheckSucceed() {}
+    // 指纹解锁已达上限次数
     open fun onFingerPrintCheckFail() {
         Toast.makeText(this, "错误次数已达上限", Toast.LENGTH_SHORT).show()
         showNumLockPanel()
     }
 
+    // 子类中要开启其他Activity时，设置此方法，可以防止返回该Activity时会出现指纹解锁
     protected fun setCheckCodeToActivity() {
         fingerCheckCode = FROM_ACTIVITY
     }
 
+    // 指纹解锁，暴露给子类，因为子类可能要在onCreate中调用
     protected fun checkFingerPrint() {
         Log.v("FingerPrintTest", "onCheck")
         fingerCheckCode = FROM_CHECK
         mainLayoutView.visibility = View.GONE
         coverLayoutView.visibility = View.VISIBLE
 
-        if (fingerEnable && fingerPrint.isHardwareDetected && fingerPrint.hasEnrolledFingerprints()) {
+        if (fingerEnable) {
+            // 多说一句，在这里传入的handler并没有被在内部调用，内部代码只是通过这个handler获取到looper
+            // 其他参数尚未配置，以后有需要再加
             fingerPrint.authenticate(
                 null,
                 0,
@@ -130,6 +161,10 @@ open class BaseActivity : AppCompatActivity() {
             showNumLockPanel()
         }
     }
+
+    protected fun isAtCheck() : Boolean = fingerCheckCode == FROM_CHECK
+
+    protected fun isNeedToIntro() : Boolean = password.isEmpty()
 
     companion object {
         const val TAG = "NumberLockTest"
