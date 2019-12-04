@@ -2,45 +2,28 @@ package com.example.keykeeper.model.repo
 
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.model.room.data.TitleData
-import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 class TitleRepo(private val keyDataBase: KeyDataBase) {
 
 
-    fun getAllTitle(): Single<MutableList<TitleData>>{
-        return keyDataBase.titleDao()
-            .getAllTitle()
-            .map {
-                it.toMutableList()
-            }
-            .subscribeOn(Schedulers.io())
+    suspend fun getAllTitle(): MutableList<TitleData> {
+        return keyDataBase.titleDao().getAllTitle().toMutableList()
     }
 
-    fun deleteTitle(name: String): Single<Int>{
-        return keyDataBase.titleDao()
-            .deleteByName(name)
-            .subscribeOn(Schedulers.io())
+    suspend fun deleteTitle(name: String): Int {
+        return keyDataBase.titleDao().deleteByName(name)
     }
 
-    fun addTitle(title: String, order: Int): Single<Long>{
-        return keyDataBase.titleDao()
-            .insertTitle(TitleData(title, order))
-            .subscribeOn(Schedulers.io())
+    suspend fun addTitle(title: String, order: Int): Long {
+        return keyDataBase.titleDao().insertTitle(TitleData(title, order))
     }
 
-    fun editTitle(newName: String, order: Int): Single<Int>{
-        return keyDataBase.titleDao()
-            .updateNameByOrder(newName, order)
-            .subscribeOn(Schedulers.io())
+    suspend fun editTitle(newName: String, order: Int): Int {
+        return keyDataBase.titleDao().updateNameByOrder(newName, order)
     }
 
-    fun editOrder(name:String, order: Int): Single<Int>{
-        return keyDataBase.titleDao()
-            .updateOrderByName(name, order)
-            .subscribeOn(Schedulers.io())
+    suspend fun editOrder(name: String, order: Int): Int {
+        return keyDataBase.titleDao().updateOrderByName(name, order)
     }
 
 }

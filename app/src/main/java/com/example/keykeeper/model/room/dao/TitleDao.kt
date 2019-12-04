@@ -8,24 +8,24 @@ import io.reactivex.Single
 interface TitleDao {
 
     @Query("SELECT * from title_table WHERE title_order=:order")
-    fun getTitleByOrder(order: Int): Single<TitleData>
+    suspend fun getTitleByOrder(order: Int): TitleData
 
     @Query("SELECT * FROM title_table ORDER BY title_order ASC")
-    fun getAllTitle(): Single<List<TitleData>>
+    suspend fun getAllTitle(): List<TitleData>
 
-    @Query("UPDATE title_table SET name = :newName WHERE title_order = :order")
-    fun updateNameByOrder(newName: String, order: Int): Single<Int>
+    @Query("UPDATE title_table SET title_name = :newName WHERE title_order = :order")
+    suspend fun updateNameByOrder(newName: String, order: Int): Int
 
-    @Query("DELETE FROM title_table WHERE name = :name ")
-    fun deleteByName(name: String): Single<Int>
+    @Query("DELETE FROM title_table WHERE title_name = :name ")
+    suspend fun deleteByName(name: String): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertTitle(titleData: TitleData): Single<Long>
+    suspend fun insertTitle(titleData: TitleData): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertAll(titleList: List<TitleData>): Single<List<Long>>
+    suspend fun insertAll(titleList: List<TitleData>): List<Long>
 
-    @Query("UPDATE title_table SET title_order = :order WHERE name = :name ")
-    fun updateOrderByName(name: String, order: Int): Single<Int>
+    @Query("UPDATE title_table SET title_order = :order WHERE title_name = :name ")
+    suspend fun updateOrderByName(name: String, order: Int): Int
 
 }

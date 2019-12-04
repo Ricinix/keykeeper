@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.keykeeper.R
+import com.example.keykeeper.domain.SingleLiveEvent
 import com.example.keykeeper.model.room.data.TitleData
 
 class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolder>() {
@@ -22,8 +23,8 @@ class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolde
     var dragListener: (holder: ViewHolder) -> Unit = {}
     private var mPosition = 0
     val deleteTitle = MutableLiveData<String>()
-    val editTitle = MutableLiveData<TitleData>()
-    val addTitle = MutableLiveData<String>()
+    val editTitle = SingleLiveEvent<TitleData>()
+    val addTitle = SingleLiveEvent<String>()
     var titles = mutableListOf<TitleData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -114,10 +115,10 @@ class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolde
                 val titleName = edit.text.toString()
                 if (i == -1) {
                     // 说明是新添加
-                    addTitle.value = titleName
+                    addTitle.setValue(titleName)
                 } else {
                     // 修改旧的值
-                    editTitle.value = TitleData(titleName, i)
+                    editTitle.setValue(TitleData(titleName, i))
                 }
             }
             .setNegativeButton("取消") { _, _ -> }
@@ -126,7 +127,7 @@ class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolde
             .show()
     }
 
-    companion object{
+    companion object {
         const val MENU_ITEM_EDIT = "编辑"
         const val MENU_ITEM_DELETE = "删除"
     }

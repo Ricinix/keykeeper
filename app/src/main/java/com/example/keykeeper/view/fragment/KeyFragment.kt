@@ -86,10 +86,6 @@ class KeyFragment(private val order: Int):Fragment() {
             recyclerAdapter.keyList = it
             recyclerAdapter.notifyDataSetChanged()
         })
-        // 如果数据流出错
-        fragViewModel.wrongMsg.observe(this, Observer {wrongMsg ->
-            Log.e("WrongMsg", wrongMsg)
-        })
         // 增删撤改都在这里进行处理
         fragViewModel.keyChangeType.observe(this, Observer {type ->
             when (type) {
@@ -157,7 +153,7 @@ class KeyFragment(private val order: Int):Fragment() {
         Log.v("LifeCycleTest", "${title}: onStart")
     }
 
-    fun refreshData(){
+    private fun refreshData(){
         fragViewModel.getTitleByOrder(order)
         fragViewModel.getKeysByOrder(order)
     }

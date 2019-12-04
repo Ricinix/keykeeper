@@ -7,7 +7,7 @@ import androidx.room.ForeignKey.CASCADE
     tableName = "key_table",
     foreignKeys = [ForeignKey(
         entity = TitleData::class,
-        parentColumns = ["name"],
+        parentColumns = ["title_name"],
         childColumns = ["category"],
         onDelete = CASCADE,
         onUpdate = CASCADE

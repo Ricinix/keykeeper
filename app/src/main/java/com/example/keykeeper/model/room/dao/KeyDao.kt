@@ -12,19 +12,21 @@ import io.reactivex.Single
 interface KeyDao {
 
     @Query("SELECT id, name, account, password, kind FROM key_table WHERE category=:category")
-    fun getByKind(category:String): Single<List<KeySimplify>>
+    suspend fun getByKind(category: String): List<KeySimplify>
 
-    @Query("SELECT id, key_table.name, account, password, kind" +
-            " FROM key_table INNER JOIN title_table ON key_table.category=title_table.name " +
-            "WHERE title_order=:order")
-    fun getByOrder(order: Int): Single<List<KeySimplify>>
+    @Query(
+        "SELECT id, key_table.name, account, password, kind" +
+                " FROM key_table INNER JOIN title_table ON key_table.category=title_table.title_name " +
+                "WHERE title_order=:order"
+    )
+    suspend fun getByOrder(order: Int): List<KeySimplify>
 
     @Insert
-    fun insertKeyData(keyData: KeyData): Single<Long>
+    suspend fun insertKeyData(keyData: KeyData): Long
 
     @Query("DELETE FROM key_table WHERE id=:id")
-    fun deleteById(id: Int): Single<Int>
+    suspend fun deleteById(id: Int): Int
 
     @Update
-    fun updateKeyData(keyData: KeyData): Single<Int>
+    suspend fun updateKeyData(keyData: KeyData): Int
 }

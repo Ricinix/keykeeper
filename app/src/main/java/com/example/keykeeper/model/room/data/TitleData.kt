@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "title_table")
 data class TitleData(
-    @PrimaryKey val name: String,
-    @ColumnInfo(name = "title_order") val order: Int
+
+    @PrimaryKey
+    @ColumnInfo(name = "title_name")
+    val name: String,
+    @ColumnInfo(name = "title_order")
+    val order: Int
 )

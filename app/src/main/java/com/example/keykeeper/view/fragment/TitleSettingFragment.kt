@@ -34,8 +34,18 @@ class TitleSettingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        inject()
+        Log.d(TAG, "onAttach ")
         mContext = context
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d(TAG, "onDetach ")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject()
         setObserver()
     }
 
@@ -196,5 +206,9 @@ class TitleSettingFragment : Fragment() {
             .titleModule(TitleModule(this))
             .build()
             .inject(this)
+    }
+
+    companion object{
+        const val TAG = "titleTest"
     }
 }
