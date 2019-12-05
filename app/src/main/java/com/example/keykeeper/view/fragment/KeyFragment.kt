@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.keykeeper.R
 import com.example.keykeeper.di.component.DaggerFragComponent
 import com.example.keykeeper.di.module.FragModule
+import com.example.keykeeper.model.room.data.KeyData
 import com.example.keykeeper.model.room.data.KeySimplify
 import com.example.keykeeper.view.MyApplication
 import com.example.keykeeper.view.adapter.ItemBtnListener
@@ -106,27 +107,24 @@ class KeyFragment(private val order: Int):Fragment() {
     fun addNewKey(){
         // 弹出自定义的Dialog
         val editDialog = KeyEditDialog(mContext, object :KeyEditDialog.Listener{
-            override fun onConfirm(name: String, account: String, password: String, kind: String) {
-                fragViewModel.addNewData(name, account, password, kind, title)
+            override fun onConfirm(keySimplify: KeySimplify) {
+                fragViewModel.addNewData(keySimplify.toKeyData(title))
             }
             override fun onCancel() {}
         })
         editDialog.show()
     }
 
+    // 编辑key
     fun editKey(keySimplify: KeySimplify){
         val editDialog = KeyEditDialog(mContext, object :KeyEditDialog.Listener{
-            override fun onConfirm(name: String, account: String, password: String, kind: String) {
-                keySimplify.name = name
-                keySimplify.account = account
-                keySimplify.password = password
-                keySimplify.kind = kind
+            override fun onConfirm(keySimplify: KeySimplify) {
                 fragViewModel.updateKey(keySimplify, title)
             }
             override fun onCancel() {}
         })
         editDialog.show()
-        editDialog.setMessage(keySimplify.name, keySimplify.account, keySimplify.password, keySimplify.kind)
+        editDialog.setMessage(keySimplify)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,6 +173,7 @@ class KeyFragment(private val order: Int):Fragment() {
             .inject(this)
     }
 
+    // 复制到剪切板
     private fun copyToBoard(s:String){
         val cm = this.context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val mClipData = ClipData.newPlainText("Label", s)

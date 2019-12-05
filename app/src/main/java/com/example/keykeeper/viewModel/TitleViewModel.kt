@@ -22,6 +22,7 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
             titleRepo.getAllTitle()
         }
         Log.v("DataBaseTest", "Title Setting get $t")
+        // 增加一个作为插入按键...
         titles.value = t.also { it.add(TitleData("", t.size)) }
     }
 
@@ -40,8 +41,7 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
             titleRepo.addTitle(TitleData(titleName, titles.value?.lastIndex ?: 0) )
         }
         if (t == -1L) {
-//            wrongMsg.enable = true
-//            wrongMsg.value = INSERT_CONFLICT
+            // 如果插入失败（name重复）
             wrongMsg.setValue(INSERT_CONFLICT)
             Log.v("DataBaseTest", "insertFail for conflict")
         } else {
@@ -59,8 +59,7 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
             }
             getAllTitle()
         }catch (e : SQLiteConstraintException){
-//            wrongMsg.enable = true
-//            wrongMsg.value = INSERT_CONFLICT
+            // 编辑失败（name重复）
             wrongMsg.setValue(INSERT_CONFLICT)
         }
 

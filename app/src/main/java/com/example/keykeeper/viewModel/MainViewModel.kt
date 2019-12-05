@@ -21,6 +21,7 @@ class MainViewModel(private val mainRepo: MainRepo) : ViewModel() {
             mainRepo.getTitle()
         }
         Log.v("DataBaseTest", "get the titleList: $t")
+        // 如果title为空，则默认添加这两个
         if (t.isEmpty()) {
             val newList = mutableListOf<TitleData>().also {
                 it.add(TitleData("工作", 0))

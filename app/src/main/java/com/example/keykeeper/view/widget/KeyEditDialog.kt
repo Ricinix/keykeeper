@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.keykeeper.R
 import com.example.keykeeper.domain.Random
+import com.example.keykeeper.model.room.data.KeySimplify
 import kotlinx.android.synthetic.main.dialog_key.*
 
 class KeyEditDialog(context: Context, private val listener: Listener) : Dialog(context) {
@@ -79,7 +80,8 @@ class KeyEditDialog(context: Context, private val listener: Listener) : Dialog(c
             }
             // 只有全部都填好了才算设置成功
             if (nameInput != "" && accountInput != "" && passwordInput != "") {
-                listener.onConfirm(nameInput, accountInput, passwordInput, pwdKind)
+                val keySimplify = KeySimplify(nameInput, accountInput, passwordInput, pwdKind)
+                listener.onConfirm(keySimplify)
                 dismiss()
             } else {
                 Toast.makeText(context, "输入为空", Toast.LENGTH_LONG).show()
@@ -153,20 +155,20 @@ class KeyEditDialog(context: Context, private val listener: Listener) : Dialog(c
     /**
      * 通过外部来设置相关控件的数据显示，一般是用于修改key的时候
      */
-    fun setMessage(name: String, account: String, password: String, kind: String) {
-        input_dialog_key_name.text = SpannableStringBuilder(name)
-        input_dialog_key_account.text = SpannableStringBuilder(account)
-        if (kind == MIX) {
+    fun setMessage(keySimplify: KeySimplify) {
+        input_dialog_key_name.text = SpannableStringBuilder(keySimplify.name)
+        input_dialog_key_account.text = SpannableStringBuilder(keySimplify.account)
+        if (keySimplify.kind == MIX) {
             radio_btn_dialog_key_mix_pwd.isChecked = true
-            input_dialog_key_mix_pwd.text = SpannableStringBuilder(password)
+            input_dialog_key_mix_pwd.text = SpannableStringBuilder(keySimplify.password)
         } else {
             radio_btn_dialog_key_num_pwd.isChecked = true
-            input_dialog_key_num_pwd.text = SpannableStringBuilder(password)
+            input_dialog_key_num_pwd.text = SpannableStringBuilder(keySimplify.password)
         }
     }
 
     interface Listener {
-        fun onConfirm(name: String, account: String, password: String, kind: String)
+        fun onConfirm(keySimplify: KeySimplify)
         fun onCancel()
     }
 

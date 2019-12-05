@@ -24,11 +24,11 @@ data class KeyData (
 )
 
 data class KeySimplify(
-    val id: Int,
     var name: String,
     var account: String,
     var password: String,
-    var kind: String
+    var kind: String,
+    val id: Int = 0
 ){
     fun toKeyData(category: String): KeyData{
         return KeyData(name, account, password, kind, category, id)

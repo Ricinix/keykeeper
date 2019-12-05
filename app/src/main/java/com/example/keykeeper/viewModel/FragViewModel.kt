@@ -1,6 +1,5 @@
 package com.example.keykeeper.viewModel
 
-import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +22,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     val keyChangeType = MutableLiveData<Int>()
     val title = MutableLiveData<String>()
 
+    // 获取title（fragment刚创建时并不知道自己的title，而且用户修改了title后，同一个fragment的title会变，而且keys也会变）
     fun getTitleByOrder(order: Int) {
         viewModelScope.launch {
             title.value = withContext(Dispatchers.IO) {
@@ -31,10 +31,12 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
         }
     }
 
+    // 通过tab中的序号来获取对应的keys（供fragment使用，这样fragment就不需要等拿到title才能拿keys了）
     fun getKeysByOrder(order: Int) = viewModelScope.launch {
         val t = withContext(Dispatchers.IO) {
             fragRepo.getKeysByOrder(order)
         }
+        // 按拼音排序
         t.sortedBy { key ->
             var c = Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
             if (c < "A" || c > "Z") {
@@ -44,6 +46,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
         }
         Log.v("SortTest", t.toString())
         keyList.value = t
+        // 记录下各首字母的第一个索引
         var oldFirst = ""
         for (i in t.indices) {
             val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
@@ -59,8 +62,10 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     }
 
 
+    // 通过类别来获取对应的所有key（这个一般是此类里面调用，因为此ViewModel不知道order）
     private fun getKeysByCategory(category: String) = viewModelScope.launch {
         val t = fragRepo.getKeysByCategory(category)
+        // 按拼音排序
         t.sortedBy { key ->
             var c = Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
             if (c < "A" || c > "Z") {
@@ -71,6 +76,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
         Log.v("SortTest", t.toString())
         keyList.value = t
         var oldFirst = ""
+        // 记录下各首字母的第一个索引
         for (i in t.indices) {
             val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
             if (oldFirst != newFirst) {
@@ -85,26 +91,17 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     }
 
 
-    fun addNewData(
-        name: String,
-        account: String,
-        password: String,
-        kind: String,
-        category: String
-    ) = viewModelScope.launch {
-        val key = KeyData(
-            name = name, account = account,
-            password = password, kind = kind, category = category
-        )
-
+    // 添加新的key
+    fun addNewData(keyData: KeyData) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            fragRepo.storeKeys(key)
+            fragRepo.storeKeys(keyData)
         }
         keyChangeType.value = KEY_ADD
-        getKeysByCategory(category)
+        getKeysByCategory(keyData.category)
     }
 
 
+    // 更新key
     fun updateKey(keySimplify: KeySimplify, category: String) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             fragRepo.updateKeys(keySimplify.toKeyData(category))
@@ -114,6 +111,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     }
 
 
+    // 删除操作，并记录下删除了什么以供撤销
     fun deleteKey(keySimplify: KeySimplify, category: String) = viewModelScope.launch {
         lastKey = keySimplify.toKeyData(category)
         withContext(Dispatchers.IO) {
@@ -124,6 +122,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     }
 
 
+    // 撤销删除操作
     fun undoDelete() {
         lastKey?.let {
             viewModelScope.launch {
