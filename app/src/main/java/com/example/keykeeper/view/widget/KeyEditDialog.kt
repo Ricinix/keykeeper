@@ -113,8 +113,8 @@ class KeyEditDialog(context: Context, private val listener: Listener) : Dialog(c
                 R.id.radio_btn_dialog_key_num_pwd -> {
                     pwdKind = NUM
                     val isFocus = input_dialog_key_mix_pwd.isFocused
-                    input_dialog_key_mix_pwd.visibility = View.GONE
-                    input_dialog_key_num_pwd.visibility = View.VISIBLE
+                    layout_dialog_key_mix_input.visibility = View.GONE
+                    layout_dialog_key_num_input.visibility = View.VISIBLE
                     val matcher = Regex("\\d+").find(input_dialog_key_mix_pwd.text.toString())
                     input_dialog_key_num_pwd.text = SpannableStringBuilder(matcher?.value ?: "")
                     if (isFocus)
