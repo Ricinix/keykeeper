@@ -26,18 +26,18 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
     }
 
 
-    fun deleteTitle(titleName: String) = viewModelScope.launch {
+    fun deleteTitle(titleData: TitleData) = viewModelScope.launch {
         val t = withContext(Dispatchers.IO) {
-            titleRepo.deleteTitle(titleName)
+            titleRepo.deleteTitle(titleData)
         }
-        Log.v("DataBaseTest", "succeed in updating $titleName, $t")
+        Log.v("DataBaseTest", "succeed in updating ${titleData.name}, $t")
         getAllTitle()
     }
 
 
     fun addTitle(titleName: String) = viewModelScope.launch {
         val t = withContext(Dispatchers.IO) {
-            titleRepo.addTitle(titleName, titles.value?.lastIndex ?: 0)
+            titleRepo.addTitle(TitleData(titleName, titles.value?.lastIndex ?: 0) )
         }
         if (t == -1L) {
 //            wrongMsg.enable = true
@@ -55,7 +55,7 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
         Log.v("DataBaseTest", "updating the $titleData")
         try {
             withContext(Dispatchers.IO) {
-                titleRepo.editTitle(titleData.name, titleData.order)
+                titleRepo.editTitle(titleData)
             }
             getAllTitle()
         }catch (e : SQLiteConstraintException){
@@ -69,7 +69,7 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
 
     fun updateAllTitles(titleList: List<TitleData>) = viewModelScope.launch(Dispatchers.IO) {
         for (index in titleList.indices) {
-            titleRepo.editOrder(titleList[index].name, index)
+            titleRepo.editOrder(titleList[index])
         }
     }
 

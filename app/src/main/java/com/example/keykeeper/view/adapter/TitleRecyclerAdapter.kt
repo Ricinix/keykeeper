@@ -22,7 +22,7 @@ class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolde
     private lateinit var mContext: Context
     var dragListener: (holder: ViewHolder) -> Unit = {}
     private var mPosition = 0
-    val deleteTitle = MutableLiveData<String>()
+    val deleteTitle = MutableLiveData<TitleData>()
     val editTitle = SingleLiveEvent<TitleData>()
     val addTitle = SingleLiveEvent<String>()
     var titles = mutableListOf<TitleData>()
@@ -90,7 +90,7 @@ class TitleRecyclerAdapter : RecyclerView.Adapter<TitleRecyclerAdapter.ViewHolde
             .setMessage("确定要删除此标题吗？")
             .setCancelable(true)
             .setPositiveButton("确定") { _, _ ->
-                deleteTitle.value = titles[mPosition].name
+                deleteTitle.value = titles[mPosition]
             }
             .setNegativeButton("取消") { _, _ -> }
             .create()

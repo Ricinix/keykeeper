@@ -26,7 +26,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     fun getTitleByOrder(order: Int) {
         viewModelScope.launch {
             title.value = withContext(Dispatchers.IO) {
-                fragRepo.getTitleByOrder(order)
+                fragRepo.getTitleByOrder(order).name
             }
         }
     }
@@ -117,7 +117,7 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
     fun deleteKey(keySimplify: KeySimplify, category: String) = viewModelScope.launch {
         lastKey = keySimplify.toKeyData(category)
         withContext(Dispatchers.IO) {
-            fragRepo.deleteKeys(keySimplify.id)
+            fragRepo.deleteKeys(keySimplify)
         }
         keyChangeType.value = KEY_DELETE
         getKeysByCategory(category)

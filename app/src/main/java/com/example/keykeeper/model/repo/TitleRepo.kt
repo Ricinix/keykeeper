@@ -10,20 +10,20 @@ class TitleRepo(private val keyDataBase: KeyDataBase) {
         return keyDataBase.titleDao().getAllTitle().toMutableList()
     }
 
-    suspend fun deleteTitle(name: String): Int {
-        return keyDataBase.titleDao().deleteByName(name)
+    suspend fun deleteTitle(titleData: TitleData): Int {
+        return keyDataBase.titleDao().deleteByName(titleData.name)
     }
 
-    suspend fun addTitle(title: String, order: Int): Long {
-        return keyDataBase.titleDao().insertTitle(TitleData(title, order))
+    suspend fun addTitle(titleData: TitleData): Long {
+        return keyDataBase.titleDao().insertTitle(titleData)
     }
 
-    suspend fun editTitle(newName: String, order: Int): Int {
-        return keyDataBase.titleDao().updateNameByOrder(newName, order)
+    suspend fun editTitle(titleData: TitleData): Int {
+        return keyDataBase.titleDao().updateNameByOrder(titleData.name, titleData.order)
     }
 
-    suspend fun editOrder(name: String, order: Int): Int {
-        return keyDataBase.titleDao().updateOrderByName(name, order)
+    suspend fun editOrder(titleData: TitleData): Int {
+        return keyDataBase.titleDao().updateOrderByName(titleData.name, titleData.order)
     }
 
 }
