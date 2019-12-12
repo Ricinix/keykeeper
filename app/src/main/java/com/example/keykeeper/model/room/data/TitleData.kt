@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class TitleData(
     @PrimaryKey
     @ColumnInfo(name = "title_name")
-    val name: String,
+    var name: String,
     @ColumnInfo(name = "title_order")
     var order: Int
 )

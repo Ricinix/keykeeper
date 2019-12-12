@@ -2,6 +2,7 @@ package com.example.keykeeper.di.module
 
 import androidx.lifecycle.ViewModelProviders
 import com.example.keykeeper.di.scope.ActivityScope
+import com.example.keykeeper.domain.Encipher
 import com.example.keykeeper.model.repo.MainRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.activity.MainActivity
@@ -19,8 +20,8 @@ class MainModule(private val mainActivity: MainActivity) {
     }
 
     @Provides @ActivityScope
-    fun provideMainRepo(keyDataBase: KeyDataBase): MainRepo{
-        return MainRepo(keyDataBase)
+    fun provideMainRepo(keyDataBase: KeyDataBase, encipher: Encipher): MainRepo{
+        return MainRepo(keyDataBase,encipher)
     }
 
 

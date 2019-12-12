@@ -2,6 +2,7 @@ package com.example.keykeeper.di.component
 
 import com.example.keykeeper.di.module.BaseModule
 import com.example.keykeeper.di.scope.AppScope
+import com.example.keykeeper.domain.Encipher
 import com.example.keykeeper.model.room.KeyDataBase
 import dagger.Component
 
@@ -9,6 +10,7 @@ import dagger.Component
 @Component(modules = [BaseModule::class])
 interface BaseComponent {
     fun getKeyDataBase():KeyDataBase
+    fun getEncipher() : Encipher
 }
 
 

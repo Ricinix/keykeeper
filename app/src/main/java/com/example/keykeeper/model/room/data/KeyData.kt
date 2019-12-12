@@ -15,11 +15,11 @@ import androidx.room.ForeignKey.CASCADE
     indices = [Index("category", name = "index_category")]
 )
 data class KeyData (
-    @ColumnInfo(name = "name") val name:String,
-    @ColumnInfo(name = "account") val account: String,
-    @ColumnInfo(name = "password") val password: String,
-    @ColumnInfo(name = "kind") val kind: String,
-    @ColumnInfo(name = "category") val category: String,
+    @ColumnInfo(name = "name") var name:String,
+    @ColumnInfo(name = "account") var account: String,
+    @ColumnInfo(name = "password") var password: String,
+    @ColumnInfo(name = "kind") var kind: String,
+    @ColumnInfo(name = "category") var category: String,
     @PrimaryKey(autoGenerate = true) val id:Int = 0
 )
 

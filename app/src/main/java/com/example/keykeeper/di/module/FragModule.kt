@@ -2,6 +2,7 @@ package com.example.keykeeper.di.module
 
 import androidx.lifecycle.ViewModelProviders
 import com.example.keykeeper.di.scope.FragmentScope
+import com.example.keykeeper.domain.Encipher
 import com.example.keykeeper.model.repo.FragRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.fragment.KeyFragment
@@ -19,7 +20,7 @@ class FragModule(private val keyFragment: KeyFragment) {
     }
 
     @Provides @FragmentScope
-    fun provideFragRepo(keyDataBase: KeyDataBase): FragRepo{
-        return FragRepo(keyDataBase)
+    fun provideFragRepo(keyDataBase: KeyDataBase, encipher: Encipher): FragRepo{
+        return FragRepo(keyDataBase, encipher)
     }
 }

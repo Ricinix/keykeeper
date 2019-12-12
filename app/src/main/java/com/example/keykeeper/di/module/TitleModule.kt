@@ -2,6 +2,7 @@ package com.example.keykeeper.di.module
 
 import androidx.lifecycle.ViewModelProviders
 import com.example.keykeeper.di.scope.FragmentScope
+import com.example.keykeeper.domain.Encipher
 import com.example.keykeeper.model.repo.TitleRepo
 import com.example.keykeeper.model.room.KeyDataBase
 import com.example.keykeeper.view.fragment.TitleSettingFragment
@@ -19,7 +20,7 @@ class TitleModule(private val titleSettingFragment: TitleSettingFragment) {
     }
 
     @Provides @FragmentScope
-    fun provideTitleRepo(keyDataBase: KeyDataBase): TitleRepo{
-        return TitleRepo(keyDataBase)
+    fun provideTitleRepo(keyDataBase: KeyDataBase, encipher: Encipher): TitleRepo{
+        return TitleRepo(keyDataBase, encipher)
     }
 }
