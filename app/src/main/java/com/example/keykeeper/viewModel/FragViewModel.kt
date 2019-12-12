@@ -36,49 +36,34 @@ class FragViewModel(private val fragRepo: FragRepo) : ViewModel() {
         val t = withContext(Dispatchers.IO) {
             fragRepo.getKeysByOrder(order)
         }
-        // 按拼音排序
-        t.sortedBy { key ->
-            var c = Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
-            if (c < "A" || c > "Z") {
-                c = "a"
-            }
-            c
-        }
-        Log.v("SortTest", t.toString())
-        keyList.value = t
-        // 记录下各首字母的第一个索引
-        var oldFirst = ""
-        for (i in t.indices) {
-            val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
-            if (oldFirst != newFirst) {
-                if (newFirst >= "A" && newFirst <= "Z")
-                    firstLetterMap[newFirst] = i
-                else
-                    firstLetterMap["#"] = i
-                oldFirst = newFirst
-            }
-        }
-        Log.v("MapTest", firstLetterMap.toString())
+        handleGetKeys(t)
     }
 
 
     // 通过类别来获取对应的所有key（这个一般是此类里面调用，因为此ViewModel不知道order）
     private fun getKeysByCategory(category: String) = viewModelScope.launch {
-        val t = fragRepo.getKeysByCategory(category)
+        val t = withContext(Dispatchers.IO){
+            fragRepo.getKeysByCategory(category)
+        }
+        handleGetKeys(t)
+    }
+
+    // 排序加设置liveData
+    private fun handleGetKeys(t : List<KeySimplify>){
         // 按拼音排序
-        t.sortedBy { key ->
+        val sortedList = t.sortedBy { key ->
             var c = Pinyin.toPinyin(key.name[0]).toUpperCase(Locale.ROOT)
             if (c < "A" || c > "Z") {
                 c = "a"
             }
             c
         }
-        Log.v("SortTest", t.toString())
-        keyList.value = t
+        Log.v("SortTest", sortedList.toString())
+        keyList.value = sortedList
         var oldFirst = ""
         // 记录下各首字母的第一个索引
-        for (i in t.indices) {
-            val newFirst = Pinyin.toPinyin(t[i].name[0]).toUpperCase(Locale.ROOT)
+        for (i in sortedList.indices) {
+            val newFirst = Pinyin.toPinyin(sortedList[i].name[0]).toUpperCase(Locale.ROOT)
             if (oldFirst != newFirst) {
                 if (newFirst >= "A" && newFirst <= "Z")
                     firstLetterMap[newFirst] = i

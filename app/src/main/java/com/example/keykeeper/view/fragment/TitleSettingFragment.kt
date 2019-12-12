@@ -34,13 +34,7 @@ class TitleSettingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG, "onAttach ")
         mContext = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG, "onDetach ")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +73,7 @@ class TitleSettingFragment : Fragment() {
         // ViewModel的观察
         viewModel.titles.observe(this, Observer {
             adapter.titles = it
-            Log.v("SettingTest", "adapter's titles: ${adapter.titles}")
+            Log.d("SettingTest", "adapter's titles: ${adapter.titles}")
             adapter.notifyDataSetChanged()
         })
         viewModel.wrongMsg.observe(this, Observer {
@@ -206,9 +200,5 @@ class TitleSettingFragment : Fragment() {
             .titleModule(TitleModule(this))
             .build()
             .inject(this)
-    }
-
-    companion object{
-        const val TAG = "titleTest"
     }
 }

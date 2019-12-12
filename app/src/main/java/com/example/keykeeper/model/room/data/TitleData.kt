@@ -10,5 +10,5 @@ data class TitleData(
     @ColumnInfo(name = "title_name")
     val name: String,
     @ColumnInfo(name = "title_order")
-    val order: Int
+    var order: Int
 )

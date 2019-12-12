@@ -67,14 +67,15 @@ class TitleViewModel(private val titleRepo: TitleRepo) : ViewModel() {
 
 
     fun updateAllTitles(titleList: List<TitleData>) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d(TAG, "updating: $titleList")
         for (index in titleList.indices) {
-            titleRepo.editOrder(titleList[index])
+            titleRepo.editOrder(titleList[index].apply { order = index })
         }
     }
 
     companion object {
         const val INSERT_CONFLICT = 0
-        const val TAG = "LiveDataTest"
+        const val TAG = "titleTest"
     }
 
 

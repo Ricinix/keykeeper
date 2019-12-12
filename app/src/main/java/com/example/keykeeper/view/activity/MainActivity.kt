@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewAnimationUtils
 import androidx.lifecycle.Observer
 import com.example.keykeeper.R
 import com.example.keykeeper.di.component.DaggerMainComponent
@@ -15,6 +16,9 @@ import com.example.keykeeper.view.adapter.ViewPagerAdapter
 import com.example.keykeeper.view.fragment.KeyFragment
 import com.example.keykeeper.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.min
 
@@ -74,7 +78,10 @@ class MainActivity : BaseActivity() {
         fab_main.setOnClickListener {
             // 获取现在所处于哪个Fragment
             val itemFrag =
-                mViewPagerAdapter.instantiateItem(view_pager_main, view_pager_main.currentItem) as KeyFragment
+                mViewPagerAdapter.instantiateItem(
+                    view_pager_main,
+                    view_pager_main.currentItem
+                ) as KeyFragment
             itemFrag.addNewKey()
             Log.v("BtnTest", itemFrag.title)
         }
